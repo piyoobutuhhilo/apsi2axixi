@@ -1,0 +1,246 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model akun {
+  id_akun     String       @id @db.VarChar(12)
+  username    String       @unique @db.VarChar(60)
+  password    String       @db.VarChar(255)
+  apoteker    apoteker?
+  dokter      dokter?
+  pasien      pasien?
+  perawat     perawat?
+  resepsionis resepsionis?
+}
+
+model antrean {
+  id_antrean      String      @id @db.VarChar(12)
+  id_kunjungan    String      @db.VarChar(12)
+  tanggal_antrean DateTime    @db.Date
+  nomor_antrean   String      @db.VarChar(20)
+  waktu_ambil     DateTime    @db.Timestamp(6)
+  id_resepsionis  String      @db.VarChar(12)
+  kunjungan       kunjungan   @relation(fields: [id_kunjungan], references: [id_kunjungan], onUpdate: NoAction, map: "fk_antrean_kunjungan")
+  resepsionis     resepsionis @relation(fields: [id_resepsionis], references: [id_resepsionis], onUpdate: NoAction, map: "fk_antrean_resepsionis")
+}
+
+model apoteker {
+  id_apoteker   String @id @db.VarChar(12)
+  nama_apoteker String @db.VarChar(150)
+  jenis_kelamin String @db.VarChar(150)
+  alamat        String
+  no_telepon    String @db.VarChar(20)
+  id_akun       String @unique @db.VarChar(12)
+  akun          akun   @relation(fields: [id_akun], references: [id_akun], onUpdate: NoAction, map: "fk_apoteker_akun")
+  obat          obat[]
+}
+
+model detail_resep {
+  id_detail_resep String @id @db.VarChar(12)
+  id_resep        String @db.VarChar(12)
+  id_obat         String @db.VarChar(12)
+  jumlah_obat     Int
+  dosis           String @db.VarChar(150)
+  aturan_pakai    String @db.VarChar(150)
+  obat            obat   @relation(fields: [id_obat], references: [id_obat], onUpdate: NoAction, map: "fk_detail_obat")
+  resep           resep  @relation(fields: [id_resep], references: [id_resep], onUpdate: NoAction, map: "fk_detail_resep")
+}
+
+model diagnosis {
+  id_diagnosis      String            @id @db.VarChar(12)
+  id_rekam_medis    String            @db.VarChar(12)
+  kode_diagnosis    String            @db.VarChar(12)
+  nama_diagnosis    String            @db.VarChar(150)
+  jenis_diagnosis   String            @db.VarChar(150)
+  catatan_diagnosis String?
+  katalog_diagnosis katalog_diagnosis @relation(fields: [kode_diagnosis], references: [kode_diagnosis], onUpdate: NoAction, map: "fk_diagnosis_katalog")
+  rekam_medis       rekam_medis       @relation(fields: [id_rekam_medis], references: [id_rekam_medis], onUpdate: NoAction, map: "fk_diagnosis_rm")
+}
+
+model diagnosis_rekam_medis {
+  id_diagnosis   Int    @id @default(autoincrement())
+  id_rekam_medis Int
+  kode_diagnosis String @db.VarChar(50)
+}
+
+model dokter {
+  id_dokter     String          @id @db.VarChar(12)
+  nama_dokter   String          @db.VarChar(150)
+  jenis_kelamin String          @db.VarChar(150)
+  alamat        String
+  no_telepon    String          @db.VarChar(20)
+  id_akun       String          @unique @db.VarChar(12)
+  akun          akun            @relation(fields: [id_akun], references: [id_akun], onUpdate: NoAction, map: "fk_dokter_akun")
+  jadwal_dokter jadwal_dokter[]
+  rekam_medis   rekam_medis[]
+}
+
+model jadwal_dokter {
+  id_jadwal     String      @id @db.VarChar(12)
+  id_dokter     String      @db.VarChar(12)
+  id_poli       String      @db.VarChar(12)
+  hari          String      @db.VarChar(150)
+  jam_mulai     DateTime    @db.Time(6)
+  jam_selesai   DateTime    @db.Time(6)
+  status_jadwal String      @db.VarChar(150)
+  dokter        dokter      @relation(fields: [id_dokter], references: [id_dokter], onUpdate: NoAction, map: "fk_jadwal_dokter")
+  poli          poli        @relation(fields: [id_poli], references: [id_poli], onUpdate: NoAction, map: "fk_jadwal_poli")
+  kunjungan     kunjungan[]
+}
+
+model katalog_diagnosis {
+  kode_diagnosis String      @id @db.VarChar(12)
+  nama_diagnosis String      @db.VarChar(150)
+  diagnosis      diagnosis[]
+}
+
+model kunjungan {
+  id_kunjungan      String        @id @db.VarChar(12)
+  id_pasien         String        @db.VarChar(12)
+  id_jadwal         String        @db.VarChar(12)
+  tanggal_kunjungan DateTime      @db.Date
+  jenis_kunjungan   String        @db.VarChar(150)
+  keluhan_awal      String        @db.VarChar(150)
+  status_kunjungan  String        @db.VarChar(150)
+  antrean           antrean[]
+  jadwal_dokter     jadwal_dokter @relation(fields: [id_jadwal], references: [id_jadwal], onUpdate: NoAction, map: "fk_kunjungan_jadwal")
+  pasien            pasien        @relation(fields: [id_pasien], references: [id_pasien], onUpdate: NoAction, map: "fk_kunjungan_pasien")
+  pembayaran        pembayaran[]
+  pemeriksaan       pemeriksaan[]
+  rekam_medis       rekam_medis[]
+}
+
+model obat {
+  id_obat            String         @id @db.VarChar(12)
+  nama_obat          String         @db.VarChar(150)
+  bentuk_obat        String         @db.VarChar(150)
+  satuan             String         @db.VarChar(150)
+  stok_obat          Int            @default(0)
+  batas_minimum_stok Int            @default(0)
+  status_obat        String         @db.VarChar(150)
+  id_apoteker        String         @db.VarChar(12)
+  detail_resep       detail_resep[]
+  apoteker           apoteker       @relation(fields: [id_apoteker], references: [id_apoteker], onUpdate: NoAction, map: "fk_obat_apoteker")
+}
+
+model pasien {
+  id_pasien     String        @id @db.VarChar(12)
+  nama_pasien   String        @db.VarChar(150)
+  nik           String        @unique @db.Char(16)
+  tanggal_lahir DateTime      @db.Date
+  jenis_kelamin String        @db.VarChar(150)
+  alamat        String
+  no_telepon    String        @db.VarChar(20)
+  id_akun       String        @unique @db.VarChar(12)
+  kunjungan     kunjungan[]
+  akun          akun          @relation(fields: [id_akun], references: [id_akun], onUpdate: NoAction, map: "fk_pasien_akun")
+  rekam_medis   rekam_medis[]
+}
+
+model pembayaran {
+  id_pembayaran      String      @id @db.VarChar(12)
+  tanggal_pembayaran DateTime    @db.Date
+  total_biaya        Decimal     @db.Decimal(12, 2)
+  metode_pembayaran  String      @db.VarChar(150)
+  status_pembayaran  String      @db.VarChar(150)
+  catatan_pembayaran String?     @db.VarChar(150)
+  id_resepsionis     String      @db.VarChar(12)
+  id_kunjungan       String      @db.VarChar(12)
+  kunjungan          kunjungan   @relation(fields: [id_kunjungan], references: [id_kunjungan], onUpdate: NoAction, map: "fk_pembayaran_kunjungan")
+  resepsionis        resepsionis @relation(fields: [id_resepsionis], references: [id_resepsionis], onUpdate: NoAction, map: "fk_pembayaran_resepsionis")
+}
+
+model pemeriksaan {
+  id_pemeriksaan        String      @id @db.VarChar(12)
+  id_kunjungan          String      @db.VarChar(12)
+  id_perawat            String      @db.VarChar(12)
+  id_rekam_medis        String      @db.VarChar(12)
+  tekanan_darah         String      @db.VarChar(150)
+  suhu_tubuh            Decimal     @db.Decimal(4, 1)
+  laju_pernapasan       Int
+  riwayat_penyakit      String?
+  waktu_pemeriksaan     DateTime    @db.Time(6)
+  nama_pemeriksaan      String      @db.VarChar(150)
+  deskripsi_pemeriksaan String?
+  tanggal_pemeriksaan   DateTime    @db.Date
+  catatan_pemeriksaan   String?
+  kunjungan             kunjungan   @relation(fields: [id_kunjungan], references: [id_kunjungan], onUpdate: NoAction, map: "fk_pemeriksaan_kunjungan")
+  perawat               perawat     @relation(fields: [id_perawat], references: [id_perawat], onUpdate: NoAction, map: "fk_pemeriksaan_perawat")
+  rekam_medis           rekam_medis @relation(fields: [id_rekam_medis], references: [id_rekam_medis], onUpdate: NoAction, map: "fk_pemeriksaan_rm")
+}
+
+model perawat {
+  id_perawat    String        @id @db.VarChar(12)
+  nama_perawat  String        @db.VarChar(150)
+  jenis_kelamin String        @db.VarChar(150)
+  alamat        String
+  no_telepon    String        @db.VarChar(20)
+  id_akun       String        @unique @db.VarChar(12)
+  pemeriksaan   pemeriksaan[]
+  akun          akun          @relation(fields: [id_akun], references: [id_akun], onUpdate: NoAction, map: "fk_perawat_akun")
+}
+
+model poli {
+  id_poli        String          @id @db.VarChar(12)
+  nama_poli      String          @db.VarChar(150)
+  lokasi_poli    String          @db.VarChar(150)
+  deskripsi_poli String?         @db.VarChar(150)
+  status_poli    String          @db.VarChar(150)
+  jadwal_dokter  jadwal_dokter[]
+}
+
+model rekam_medis {
+  id_rekam_medis          String        @id @db.VarChar(12)
+  id_kunjungan            String        @db.VarChar(12)
+  id_dokter               String        @db.VarChar(12)
+  tanggal_pencatatan      DateTime      @db.Date
+  riwayat_keluhan         String?
+  hasil_pemeriksaan_fisik String?       @db.VarChar(150)
+  catatan_medis           String?
+  id_pasien               String        @db.VarChar(12)
+  diagnosis               diagnosis[]
+  pemeriksaan             pemeriksaan[]
+  dokter                  dokter        @relation(fields: [id_dokter], references: [id_dokter], onUpdate: NoAction, map: "fk_rm_dokter")
+  kunjungan               kunjungan     @relation(fields: [id_kunjungan], references: [id_kunjungan], onUpdate: NoAction, map: "fk_rm_kunjungan")
+  pasien                  pasien        @relation(fields: [id_pasien], references: [id_pasien], onUpdate: NoAction, map: "fk_rm_pasien")
+  resep                   resep[]
+  rujukan                 rujukan[]
+}
+
+model resep {
+  id_resep       String         @id @db.VarChar(12)
+  id_rekam_medis String         @db.VarChar(12)
+  tanggal_resep  DateTime       @db.Date
+  catatan_resep  String?        @db.VarChar(150)
+  status_resep   String         @db.VarChar(150)
+  detail_resep   detail_resep[]
+  rekam_medis    rekam_medis    @relation(fields: [id_rekam_medis], references: [id_rekam_medis], onUpdate: NoAction, map: "fk_resep_rm")
+}
+
+model resepsionis {
+  id_resepsionis   String       @id @db.VarChar(12)
+  nama_resepsionis String       @db.VarChar(150)
+  jenis_kelamin    String       @db.VarChar(150)
+  alamat           String
+  no_telepon       String       @db.VarChar(20)
+  id_akun          String       @unique @db.VarChar(12)
+  antrean          antrean[]
+  pembayaran       pembayaran[]
+  akun             akun         @relation(fields: [id_akun], references: [id_akun], onUpdate: NoAction, map: "fk_resepsionis_akun")
+}
+
+model rujukan {
+  id_rujukan        String      @id @db.VarChar(12)
+  id_rekam_medis    String      @db.VarChar(12)
+  tanggal_rujukan   DateTime    @db.Date
+  tujuan_rujukan    String      @db.VarChar(150)
+  alasan_rujukan    String
+  diagnosis_rujukan String      @db.VarChar(150)
+  status_rujukan    String      @db.VarChar(150)
+  rekam_medis       rekam_medis @relation(fields: [id_rekam_medis], references: [id_rekam_medis], onUpdate: NoAction, map: "fk_rujukan_rm")
+}
