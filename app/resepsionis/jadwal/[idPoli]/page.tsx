@@ -39,7 +39,7 @@ const idPoliDbMap: Record<string, string> = {
   "penyakit-dalam": "POL005",
 };
 
-export default function DetailJadwalResepsionisPage() {
+function DetailJadwalContent() {
   const router = useRouter();
   const params = useParams();
   const idPoli = typeof params?.idPoli === "string" ? params.idPoli.toLowerCase() : "anak";
@@ -343,5 +343,19 @@ export default function DetailJadwalResepsionisPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function DetailJadwalResepsionisPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#20674f] text-white flex items-center justify-center font-bold">
+          Memuat Jadwal Dokter...
+        </div>
+      }
+    >
+      <DetailJadwalContent />
+    </Suspense>
   );
 }
