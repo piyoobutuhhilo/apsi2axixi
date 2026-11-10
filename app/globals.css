@@ -30,27 +30,32 @@ body {
   font-family: var(--font-archivo-black), sans-serif;
 }
 
-/* Efek Halus Perpindahan Halaman & Interaksi */
+/* Scroll Halus */
 html {
   scroll-behavior: smooth;
 }
 
-@keyframes pageFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-main, .page-transition {
-  animation: pageFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Transisi Hover Halus untuk Semua Tombol & Kartu */
-button, a, input, select {
+/* Transisi Hover Universal */
+button,
+a,
+input,
+select {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Keyframe & Class Animasi Perpindahan Halaman */
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-page-enter {
+  animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
 }
