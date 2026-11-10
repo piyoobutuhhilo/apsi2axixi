@@ -1,10 +1,13 @@
-
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import { connection } from "next/server";
-export async function GET() {
+
+// Tambahkan parameter request: Request untuk mencegah prerender Vercel
+export async function GET(request: Request) {
   try {
+    // Membaca url dari request memaksa Next.js menjadikannya rute dinamis
+    const url = new URL(request.url);
+    
     const cookieStore = await cookies();
     const idAkun = cookieStore.get("user_id")?.value;
 
