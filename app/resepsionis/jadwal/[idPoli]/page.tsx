@@ -10,7 +10,7 @@ interface SesiJadwal {
 }
 
 interface JadwalDokter {
-  id: string; // id_dokter asli (misal: DKT001)
+  id: string;
   nama: string;
   fotoUrl: string;
   jadwal: SesiJadwal[];
@@ -30,7 +30,6 @@ function formatTime(val: any): string {
   return String(val);
 }
 
-// Mapping ID Poli string URL ke ID Poli Database
 const idPoliDbMap: Record<string, string> = {
   anak: "POL001",
   gigi: "POL002",
@@ -39,7 +38,8 @@ const idPoliDbMap: Record<string, string> = {
   "penyakit-dalam": "POL005",
 };
 
-function DetailJadwalContent() {
+// Komponen Anak: Semua hooks ditaruh di sini
+function JadwalDetailContent() {
   const router = useRouter();
   const params = useParams();
   const idPoli = typeof params?.idPoli === "string" ? params.idPoli.toLowerCase() : "anak";
@@ -48,18 +48,15 @@ function DetailJadwalContent() {
   const [dokterList, setDokterList] = useState<JadwalDokter[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // State Modal Tambah
   const [activeDokterId, setActiveDokterId] = useState<string | null>(null);
   const [modalStep, setModalStep] = useState<"HARI" | "JAM" | null>(null);
   const [inputHari, setInputHari] = useState("");
   const [inputJam1, setInputJam1] = useState("");
   const [inputJam2, setInputJam2] = useState("17.00");
 
-  // State Konfirmasi Hapus
   const [deleteTarget, setDeleteTarget] = useState<{ id_jadwal: string } | null>(null);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
 
-  // Ambil Data dari Database
   const fetchJadwal = async () => {
     try {
       setLoading(true);
@@ -102,7 +99,6 @@ function DetailJadwalContent() {
     fetchJadwal();
   }, [idPoli]);
 
-  // Tambah Jadwal ke Database
   const handleSimpanJadwal = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!activeDokterId || !inputHari.trim()) return;
@@ -129,7 +125,6 @@ function DetailJadwalContent() {
     await fetchJadwal();
   };
 
-  // Hapus Jadwal dari Database
   const confirmHapusJadwal = async () => {
     if (!deleteTarget) return;
 
@@ -140,7 +135,6 @@ function DetailJadwalContent() {
     await fetchJadwal();
   };
 
-  // Edit Jam di Database
   const handleEditJam = async (id_jadwal: string, currentJam: string) => {
     const input = prompt("Masukkan format jam baru (contoh: 08.00-14.00):", currentJam);
     if (!input || !input.includes("-")) return;
@@ -161,7 +155,6 @@ function DetailJadwalContent() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#20674f] text-gray-800 overflow-hidden flex flex-col font-sans select-none p-5 md:p-8">
-      {/* Tombol Kembali Menggunakan router.back() */}
       <div className="relative z-10 w-full flex items-center justify-between mb-4 min-h-[46px]">
         <button
           onClick={() => router.back()}
@@ -181,7 +174,6 @@ function DetailJadwalContent() {
         <div className="w-20" />
       </div>
 
-      {/* Kontainer Jadwal */}
       <div className="relative z-10 w-full flex-1 bg-[#d5dde2] rounded-[32px] p-6 md:p-10 shadow-2xl flex flex-col space-y-6 overflow-y-auto">
         {loading ? (
           <div className="text-center py-16 text-slate-600 font-bold text-sm">Menyinkronkan database...</div>
@@ -198,7 +190,6 @@ function DetailJadwalContent() {
                 </div>
 
                 <div className="w-full bg-[#82cfa5] border border-[#52b788] rounded-3xl p-4 shadow-md flex flex-col sm:flex-row gap-4 justify-between items-stretch">
-                  {/* Kolom Hari */}
                   <div className="w-full sm:w-5/12 flex flex-col">
                     <div className="bg-[#4aa174] text-white text-xs font-bold py-1.5 px-4 rounded-xl flex items-center justify-between mb-2">
                       <span className="mx-auto pl-5">Hari</span>
@@ -231,7 +222,6 @@ function DetailJadwalContent() {
                     </div>
                   </div>
 
-                  {/* Kolom Jam */}
                   <div className="w-full sm:w-7/12 flex flex-col">
                     <div className="bg-[#4aa174] text-white text-xs font-bold py-1.5 px-4 rounded-xl flex items-center justify-center mb-2">
                       <span>Jam Kerja</span>
@@ -261,7 +251,6 @@ function DetailJadwalContent() {
         )}
       </div>
 
-      {/* Modal Hapus */}
       {deleteTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
           <div className="w-full max-w-sm bg-[#e2f0e9] rounded-3xl p-6 shadow-2xl border-2 border-slate-300 flex flex-col items-center">
@@ -286,7 +275,6 @@ function DetailJadwalContent() {
         </div>
       )}
 
-      {/* Modal Tambah Hari */}
       {modalStep === "HARI" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
           <div className="w-full max-w-sm bg-[#e2f0e9] rounded-3xl p-6 shadow-2xl border-2 border-slate-300 flex flex-col items-center relative">
@@ -311,7 +299,6 @@ function DetailJadwalContent() {
         </div>
       )}
 
-      {/* Modal Tambah Jam */}
       {modalStep === "JAM" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
           <div className="w-full max-w-sm bg-[#e2f0e9] rounded-3xl p-6 shadow-2xl border-2 border-slate-300 flex flex-col items-center relative">
@@ -346,6 +333,7 @@ function DetailJadwalContent() {
   );
 }
 
+// Export default HANYA membungkus JadwalDetailContent dengan Suspense
 export default function DetailJadwalResepsionisPage() {
   return (
     <Suspense
@@ -355,7 +343,7 @@ export default function DetailJadwalResepsionisPage() {
         </div>
       }
     >
-      <DetailJadwalContent />
+      <JadwalDetailContent />
     </Suspense>
   );
 }
