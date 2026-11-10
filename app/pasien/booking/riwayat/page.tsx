@@ -33,32 +33,64 @@ function formatTanggalIndo(dateStr: string): string {
   });
 }
 
-function formatWaktuPemeriksaan(item: BookingItem): string {
-  if (item.jadwal?.jam_mulai) {
-    const parseTime = (timeVal: string | Date) => {
-      if (typeof timeVal === "string") {
-        return timeVal.slice(0, 5).replace(":", ".");
-      }
-      const d = new Date(timeVal);
-      return `${String(d.getUTCHours()).padStart(2, "0")}.${String(d.getUTCMinutes()).padStart(2, "0")}`;
-    };
+function parseJamString(timeVal: string | Date | undefined | null): string | null {
+  if (!timeVal) return null;
+  const str = String(timeVal);
 
-    const mulai = parseTime(item.jadwal.jam_mulai);
-    const selesai = item.jadwal.jam_selesai ? parseTime(item.jadwal.jam_selesai) : null;
-
-    return selesai ? `Pukul ${mulai} - ${selesai} WIB` : `Pukul ${mulai} WIB`;
-  }
-
-  if (item.tanggal_pemeriksaan && item.tanggal_pemeriksaan.includes("T")) {
-    const date = new Date(item.tanggal_pemeriksaan);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    if (hours !== 0 || minutes !== 0) {
-      return `Pukul ${String(hours).padStart(2, "0")}.${String(minutes).padStart(2, "0")} WIB`;
+  // Jika format ISO Prisma (misal: "1970-01-01T08:30:00.000Z")
+  if (str.includes("T")) {
+    const timePart = str.split("T")[1];
+    const parts = timePart.split(":");
+    if (parts.length >= 2) {
+      return `${parts[0]}.${parts[1]}`;
     }
   }
 
-  return "Sesuai Jadwal Operasional Dokter";
+  // Jika format waktu string biasa (misal: "08:30:00" atau "08:30")
+  if (str.includes(":")) {
+    const parts = str.split(":");
+    if (parts.length >= 2) {
+      // Menghapus spasi atau karakter non-angka jika ada
+      const h = parts[0].trim().slice(-2);
+      const m = parts[1].trim().slice(0, 2);
+      return `${h}.${m}`;
+    }
+  }
+
+  // Jika objek Date valid
+  try {
+    const d = new Date(timeVal);
+    if (!isNaN(d.getTime())) {
+      return `${String(d.getUTCHours()).padStart(2, "0")}.${String(d.getUTCMinutes()).padStart(2, "0")}`;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function formatWaktuPemeriksaan(item: BookingItem): string {
+  const mulai = parseJamString(item.jadwal?.jam_mulai);
+  const selesai = parseJamString(item.jadwal?.jam_selesai);
+
+  if (mulai && selesai) {
+    return `Pukul ${mulai} - ${selesai} WIB`;
+  }
+  if (mulai) {
+    return `Pukul ${mulai} WIB`;
+  }
+
+  // Fallback: Jika tanggal_pemeriksaan mengandung jam non-nol
+  if (item.tanggal_pemeriksaan && item.tanggal_pemeriksaan.includes("T")) {
+    const timePart = item.tanggal_pemeriksaan.split("T")[1];
+    const parts = timePart.split(":");
+    if (parts[0] !== "00" || parts[1] !== "00") {
+      return `Pukul ${parts[0]}.${parts[1]} WIB`;
+    }
+  }
+
+  return "Sesuai Jadwal Dokter";
 }
 
 export default function RiwayatBookingPasienPage() {
@@ -195,7 +227,7 @@ export default function RiwayatBookingPasienPage() {
                     <span className={`font-semibold ${isBatal ? "line-through text-slate-500" : ""}`}>
                       {formatTanggalIndo(item.tanggal_pemeriksaan)}
                     </span>
-                    <span className="text-[11px] text-slate-700 font-medium">
+                    <span className="text-[11px] text-slate-700 font-medium mt-0.5">
                       {formatWaktuPemeriksaan(item)}
                     </span>
 

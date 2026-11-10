@@ -42,32 +42,59 @@ function formatTanggalIndo(dateStr: string): string {
   });
 }
 
-function formatWaktuPemeriksaan(item: AntreanItem): string {
-  if (item.jadwal?.jam_mulai) {
-    const parseTime = (timeVal: string | Date) => {
-      if (typeof timeVal === "string") {
-        return timeVal.slice(0, 5).replace(":", ".");
-      }
-      const d = new Date(timeVal);
-      return `${String(d.getUTCHours()).padStart(2, "0")}.${String(d.getUTCMinutes()).padStart(2, "0")}`;
-    };
+function parseJamString(timeVal: string | Date | undefined | null): string | null {
+  if (!timeVal) return null;
+  const str = String(timeVal);
 
-    const mulai = parseTime(item.jadwal.jam_mulai);
-    const selesai = item.jadwal.jam_selesai ? parseTime(item.jadwal.jam_selesai) : null;
-
-    return selesai ? `Pukul ${mulai} - ${selesai} WIB` : `Pukul ${mulai} WIB`;
-  }
-
-  if (item.tanggal_pemeriksaan && item.tanggal_pemeriksaan.includes("T")) {
-    const date = new Date(item.tanggal_pemeriksaan);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    if (hours !== 0 || minutes !== 0) {
-      return `Pukul ${String(hours).padStart(2, "0")}.${String(minutes).padStart(2, "0")} WIB`;
+  if (str.includes("T")) {
+    const timePart = str.split("T")[1];
+    const parts = timePart.split(":");
+    if (parts.length >= 2) {
+      return `${parts[0]}.${parts[1]}`;
     }
   }
 
-  return "Sesuai Jam Operasional Dokter";
+  if (str.includes(":")) {
+    const parts = str.split(":");
+    if (parts.length >= 2) {
+      const h = parts[0].trim().slice(-2);
+      const m = parts[1].trim().slice(0, 2);
+      return `${h}.${m}`;
+    }
+  }
+
+  try {
+    const d = new Date(timeVal);
+    if (!isNaN(d.getTime())) {
+      return `${String(d.getUTCHours()).padStart(2, "0")}.${String(d.getUTCMinutes()).padStart(2, "0")}`;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function formatWaktuPemeriksaan(item: AntreanItem): string {
+  const mulai = parseJamString(item.jadwal?.jam_mulai);
+  const selesai = parseJamString(item.jadwal?.jam_selesai);
+
+  if (mulai && selesai) {
+    return `Pukul ${mulai} - ${selesai} WIB`;
+  }
+  if (mulai) {
+    return `Pukul ${mulai} WIB`;
+  }
+
+  if (item.tanggal_pemeriksaan && item.tanggal_pemeriksaan.includes("T")) {
+    const timePart = item.tanggal_pemeriksaan.split("T")[1];
+    const parts = timePart.split(":");
+    if (parts[0] !== "00" || parts[1] !== "00") {
+      return `Pukul ${parts[0]}.${parts[1]} WIB`;
+    }
+  }
+
+  return "Sesuai Jadwal Dokter";
 }
 
 export default function CetakAntreanPage() {
@@ -334,7 +361,7 @@ export default function CetakAntreanPage() {
                 className="bg-[#1b5d44] hover:bg-[#154633] text-white font-extrabold text-xs md:text-sm px-8 py-3 rounded-2xl shadow-lg border-b-2 border-black/40 transition active:scale-95 cursor-pointer flex items-center gap-2"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                 </svg>
                 <span>Cetak / Simpan PDF</span>
               </button>
