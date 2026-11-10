@@ -1,9 +1,8 @@
-export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
-
+import { connection } from "next/server";
 export async function GET() {
   try {
     const cookieStore = await cookies();
