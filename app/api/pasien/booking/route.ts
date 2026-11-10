@@ -28,9 +28,9 @@ function hitungTanggalPemeriksaan(hariTarget: string): Date {
   return result;
 }
 
+// ================= 1. POST: BUAT BOOKING BARU =================
 export async function POST(request: Request) {
   try {
-    // 1. Ambil identitas langsung dari Cookie Sesi Server
     const cookieStore = await cookies();
     const idPasienCookie = cookieStore.get("id_pasien")?.value;
     const idAkunCookie = cookieStore.get("id_akun")?.value || cookieStore.get("user_id")?.value;
@@ -50,21 +50,18 @@ export async function POST(request: Request) {
 
     let pasienLogin = null;
 
-    // 2. Cari data pasien di DATABASE berdasarkan ID Pasien sesi
     if (targetIdPasien) {
       pasienLogin = await prisma.pasien.findUnique({
         where: { id_pasien: targetIdPasien },
       });
     }
 
-    // 3. Jika belum ketemu, cari via relasi ID Akun yang sedang login
     if (!pasienLogin && targetIdAkun) {
       pasienLogin = await prisma.pasien.findFirst({
         where: { id_akun: targetIdAkun },
       });
     }
 
-    // 4. Jika sesi login kosong / tidak terdaftar, TOLAK pembuatan booking
     if (!pasienLogin) {
       return NextResponse.json(
         { message: "Sesi pasien tidak sah atau belum login. Silakan login kembali!" },
@@ -72,14 +69,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // 5. Hitung tanggal periksa
     const jadwalData = await prisma.jadwal_dokter.findUnique({
       where: { id_jadwal: String(id_jadwal) },
     });
     const hariJadwal = jadwalData?.hari || "Senin";
     const tglPeriksa = hitungTanggalPemeriksaan(hariJadwal);
 
-    // 6. Buat kode antrean dan simpan HANYA untuk pasienLogin
     const newIdBooking = `BKG${Date.now().toString().slice(-6)}`;
     const randomSuffix = Math.floor(100 + Math.random() * 900);
     const kodeAntrean = `ANT-${id_poli}-${randomSuffix}`;
@@ -87,7 +82,7 @@ export async function POST(request: Request) {
     const bookingBaru = await prisma.booking.create({
       data: {
         id_booking: newIdBooking,
-        id_pasien: pasienLogin.id_pasien, // Menggunakan ID pasien milik akun yang login
+        id_pasien: pasienLogin.id_pasien,
         id_poli: String(id_poli),
         id_dokter: String(id_dokter),
         id_jadwal: String(id_jadwal),
@@ -109,6 +104,76 @@ export async function POST(request: Request) {
     console.error("Booking POST Error:", err);
     return NextResponse.json(
       { message: err?.message || "Gagal membuat booking" },
+      { status: 500 }
+    );
+  }
+}
+
+// ================= 2. PUT: EDIT / UPDATE JADWAL BOOKING =================
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+    const { id_booking, id_poli, id_dokter, id_jadwal } = body;
+
+    if (!id_booking) {
+      return NextResponse.json(
+        { message: "ID Booking wajib disertakan untuk mode edit!" },
+        { status: 400 }
+      );
+    }
+
+    if (!id_poli || !id_dokter || !id_jadwal) {
+      return NextResponse.json(
+        { message: "Poli, Dokter, dan Jadwal wajib dipilih!" },
+        { status: 400 }
+      );
+    }
+
+    // 1. Cek apakah booking ada di database
+    const bookingExisting = await prisma.booking.findUnique({
+      where: { id_booking: String(id_booking) },
+    });
+
+    if (!bookingExisting) {
+      return NextResponse.json(
+        { message: "Data booking tidak ditemukan!" },
+        { status: 404 }
+      );
+    }
+
+    // 2. Hitung ulang tanggal pemeriksaan berdasarkan jadwal dokter yang baru dipilih
+    const jadwalData = await prisma.jadwal_dokter.findUnique({
+      where: { id_jadwal: String(id_jadwal) },
+    });
+    const hariJadwal = jadwalData?.hari || "Senin";
+    const tglPeriksaBaru = hitungTanggalPemeriksaan(hariJadwal);
+
+    // 3. Update data booking di database
+    const updatedBooking = await prisma.booking.update({
+      where: { id_booking: String(id_booking) },
+      data: {
+        id_poli: String(id_poli),
+        id_dokter: String(id_dokter),
+        id_jadwal: String(id_jadwal),
+        tanggal_pemeriksaan: tglPeriksaBaru,
+        status: "Menunggu", // Kembalikan ke Menunggu Konfirmasi setelah diubah
+      },
+      include: {
+        pasien: true,
+        poli: true,
+        dokter: true,
+        jadwal: true,
+      },
+    });
+
+    return NextResponse.json({
+      message: "Jadwal booking berhasil diperbarui!",
+      data: updatedBooking,
+    });
+  } catch (err: any) {
+    console.error("Booking PUT Error:", err);
+    return NextResponse.json(
+      { message: err?.message || "Gagal memperbarui jadwal booking" },
       { status: 500 }
     );
   }
