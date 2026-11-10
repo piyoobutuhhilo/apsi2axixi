@@ -3,6 +3,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+interface JadwalDetail {
+  id_jadwal?: string;
+  hari?: string;
+  jam_mulai?: string | Date;
+  jam_selesai?: string | Date;
+}
+
 interface BookingItem {
   id_booking: string;
   id_pasien: string;
@@ -12,7 +19,7 @@ interface BookingItem {
   status: string;
   poli?: { nama_poli: string };
   dokter?: { nama_dokter: string };
-  jadwal?: { hari: string };
+  jadwal?: JadwalDetail;
 }
 
 function formatTanggalIndo(dateStr: string): string {
@@ -26,12 +33,32 @@ function formatTanggalIndo(dateStr: string): string {
   });
 }
 
-function formatJamIndo(dateStr: string): string {
-  if (!dateStr) return "Pukul 08.30 WIB";
-  const date = new Date(dateStr);
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-  return `Pukul ${hours}.${minutes} WIB`;
+function formatWaktuPemeriksaan(item: BookingItem): string {
+  if (item.jadwal?.jam_mulai) {
+    const parseTime = (timeVal: string | Date) => {
+      if (typeof timeVal === "string") {
+        return timeVal.slice(0, 5).replace(":", ".");
+      }
+      const d = new Date(timeVal);
+      return `${String(d.getUTCHours()).padStart(2, "0")}.${String(d.getUTCMinutes()).padStart(2, "0")}`;
+    };
+
+    const mulai = parseTime(item.jadwal.jam_mulai);
+    const selesai = item.jadwal.jam_selesai ? parseTime(item.jadwal.jam_selesai) : null;
+
+    return selesai ? `Pukul ${mulai} - ${selesai} WIB` : `Pukul ${mulai} WIB`;
+  }
+
+  if (item.tanggal_pemeriksaan && item.tanggal_pemeriksaan.includes("T")) {
+    const date = new Date(item.tanggal_pemeriksaan);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    if (hours !== 0 || minutes !== 0) {
+      return `Pukul ${String(hours).padStart(2, "0")}.${String(minutes).padStart(2, "0")} WIB`;
+    }
+  }
+
+  return "Sesuai Jadwal Operasional Dokter";
 }
 
 export default function RiwayatBookingPasienPage() {
@@ -163,13 +190,13 @@ export default function RiwayatBookingPasienPage() {
                     <span>{formatTanggalIndo(item.tanggal_booking)}</span>
                   </div>
 
-                  {/* Kolom Tanggal Pemeriksaan + Indikator Status Tegas */}
+                  {/* Kolom Tanggal Pemeriksaan + Jam Akurat */}
                   <div className="col-span-4 border-r border-slate-400 flex flex-col justify-center p-3 font-sans leading-tight">
                     <span className={`font-semibold ${isBatal ? "line-through text-slate-500" : ""}`}>
                       {formatTanggalIndo(item.tanggal_pemeriksaan)}
                     </span>
-                    <span className="text-[11px] text-slate-700">
-                      {formatJamIndo(item.tanggal_pemeriksaan)}
+                    <span className="text-[11px] text-slate-700 font-medium">
+                      {formatWaktuPemeriksaan(item)}
                     </span>
 
                     {/* BADGE INDIKASI STATUS */}
@@ -204,7 +231,7 @@ export default function RiwayatBookingPasienPage() {
                       <span className="hidden sm:inline">Lihat</span>
                     </button>
 
-                    {/* Tombol Edit (Kuning) - Dinonaktifkan jika dibatalkan */}
+                    {/* Tombol Edit (Kuning) */}
                     <button
                       disabled={isBatal}
                       onClick={() => handleEdit(item)}
@@ -276,7 +303,9 @@ export default function RiwayatBookingPasienPage() {
                 <span className="font-bold text-right">
                   {formatTanggalIndo(modalDetail.tanggal_pemeriksaan)}
                   <br />
-                  {formatJamIndo(modalDetail.tanggal_pemeriksaan)}
+                  <span className="text-emerald-700 font-semibold text-[11px]">
+                    {formatWaktuPemeriksaan(modalDetail)}
+                  </span>
                 </span>
               </div>
 
