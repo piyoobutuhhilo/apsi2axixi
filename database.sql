@@ -1,15 +1,11 @@
--- =====================================================
--- TAHAP 1: BERSIHKAN TABEL LAMA (Mencegah Error Integer)
--- =====================================================
+
 DROP TABLE IF EXISTS 
     detail_resep, resep, obat, pemeriksaan, diagnosis, katalog_diagnosis, 
     rujukan, rekam_medis, pembayaran, antrean, kunjungan, jadwal_dokter, 
     poli, resepsionis, pasien, perawat, apoteker, dokter, akun 
 CASCADE;
 
--- =====================================================
--- TAHAP 2: BUAT STRUKTUR TABEL BARU (Format VARCHAR/Teks)
--- =====================================================
+
 CREATE TABLE akun (
     id_akun VARCHAR(12) PRIMARY KEY,
     username VARCHAR(60) NOT NULL UNIQUE,
@@ -216,9 +212,7 @@ CREATE TABLE detail_resep (
     CONSTRAINT fk_detail_obat FOREIGN KEY (id_obat) REFERENCES obat(id_obat) ON DELETE RESTRICT
 );
 
--- =====================================================
--- TAHAP 3: MASUKKAN DATA (Format sudah disesuaikan)
--- =====================================================
+
 INSERT INTO akun (id_akun, username, password) VALUES
 ('AKN001', 'sari.putri', 'sari1026'),
 ('AKN002', 'budi.santoso', 'budi1027'),
@@ -234,12 +228,28 @@ INSERT INTO akun (id_akun, username, password) VALUES
 ('AKN012', 'arif.mahendra', 'arif1042'),
 ('AKN013', 'maya.ramadhani', 'maya1043'),
 ('AKN014', 'taufik.hidayat', 'taufik1044'),
-('AKN015', 'intan.permata', 'intan1045');
+('AKN015', 'intan.permata', 'intan1045'),
+('AKN_DOK001', 'falzan@puskesmas.com', 'dokter123'),
+('AKN_DOK002', 'clara@puskesmas.com', 'dokter123'),
+('AKN_DOK003', 'ziyn@puskesmas.com', 'dokter123'),
+('AKN_DOK004', 'rian@puskesmas.com', 'dokter123'),
+('AKN_DOK005', 'rahma@puskesmas.com', 'dokter123'),
+('AKN_DOK006', 'budi@puskesmas.com', 'dokter123');
 
 INSERT INTO dokter (id_dokter, nama_dokter, jenis_kelamin, alamat, no_telepon, id_akun) VALUES
-('DKT001', 'dr. Rani Putri', 'Perempuan', 'Limau Manis, Kecamatan Pauh, Kota Padang', '081271510101', 'AKN003'),
-('DKT002', 'dr. Fikri Pratama', 'Laki-laki', 'Kuranji, Kota Padang', '081271510102', 'AKN004'),
-('DKT003', 'dr. Arif Mahendra', 'Laki-laki', 'Lubuk Kilangan, Kota Padang', '081271510103', 'AKN012');
+('DKT001', 'dr. Falzan', 'Laki-Laki', 'Jl. Pauh Sehat No. 12, Padang', '081234567801', 'AKN_DOK001'),
+('DKT002', 'dr. Clara', 'Perempuan', 'Jl. Limau Manis No. 45, Padang', '081234567802', 'AKN_DOK002'),
+('DKT003', 'drg. Ziyn', 'Perempuan', 'Jl. Kuranji No. 88, Padang', '081234567803', 'AKN_DOK003'),
+('DKT004', 'dr. Rian Pratama', 'Laki-Laki', 'Jl. Andalas Baru No. 05, Padang', '081234567804', 'AKN_DOK004'),
+('DKT005', 'dr. Siti Rahma, Sp.OG', 'Perempuan', 'Jl. Dr. M. Hatta No. 20, Padang', '081234567805', 'AKN_DOK005'),
+('DKT006', 'dr. Budi Santoso, Sp.PD', 'Laki-Laki', 'Jl. Perintis Kemerdekaan No. 14, Padang', '081234567806', 'AKN_DOK006')
+ON CONFLICT (id_dokter) DO UPDATE 
+SET nama_dokter = EXCLUDED.nama_dokter,
+    jenis_kelamin = EXCLUDED.jenis_kelamin,
+    alamat = EXCLUDED.alamat,
+    no_telepon = EXCLUDED.no_telepon;
+
+
 
 INSERT INTO apoteker (id_apoteker, nama_apoteker, jenis_kelamin, alamat, no_telepon, id_akun) VALUES
 ('APT001', 'Nabila Zahra', 'Perempuan', 'Bandar Buat, Kecamatan Lubuk Kilangan, Kota Padang', '081271530101', 'AKN007'),
@@ -262,12 +272,41 @@ INSERT INTO resepsionis (id_resepsionis, nama_resepsionis, jenis_kelamin, alamat
 ('RSPN003', 'Intan Permata', 'Perempuan', 'Gunung Sarik, Kecamatan Kuranji, Kota Padang', '081271540103', 'AKN015');
 
 INSERT INTO poli (id_poli, nama_poli, lokasi_poli, deskripsi_poli, status_poli) VALUES
-('POL001', 'Poli Umum', 'Lantai 1', 'Pelayanan pemeriksaan kesehatan umum', 'Aktif');
+('POL001', 'Poli Anak', 'Lantai 1 Gedung A', 'Pelayanan kesehatan anak, balita, dan imunisasi', 'Aktif'),
+('POL002', 'Poli Gigi', 'Lantai 2 Gedung A', 'Pemeriksaan dan penanganan masalah gigi mulut', 'Aktif'),
+('POL003', 'Poli Umum', 'Lantai 1 Gedung Utama', 'Pelayanan pemeriksaan kesehatan dasar dan umum', 'Aktif'),
+('POL004', 'Poli Kandungan', 'Lantai 2 Gedung B', 'Pemeriksaan ibu hamil dan kesehatan reproduksi', 'Aktif'),
+('POL005', 'Poli Penyakit Dalam', 'Lantai 2 Gedung Utama', 'Konsultasi diagnosa dan terapi penyakit organ dalam', 'Aktif')
+ON CONFLICT (id_poli) DO UPDATE 
+SET nama_poli = EXCLUDED.nama_poli,
+    lokasi_poli = EXCLUDED.lokasi_poli,
+    deskripsi_poli = EXCLUDED.deskripsi_poli,
+    status_poli = EXCLUDED.status_poli;
 
 INSERT INTO jadwal_dokter (id_jadwal, id_dokter, id_poli, hari, jam_mulai, jam_selesai, status_jadwal) VALUES
-('JDW001', 'DKT001', 'POL001', 'Senin', '08:00:00', '12:00:00', 'Aktif'),
-('JDW002', 'DKT002', 'POL001', 'Selasa', '09:00:00', '13:00:00', 'Aktif'),
-('JDW003', 'DKT003', 'POL001', 'Rabu', '09:00:00', '13:00:00', 'Aktif');
+-- Poli Umum (POL001)
+('JDW001', 'DKT004', 'POL001', 'Senin', '08:00:00', '12:00:00', 'Aktif'),
+('JDW002', 'DKT004', 'POL001', 'Selasa', '08:00:00', '12:00:00', 'Aktif'),
+('JDW003', 'DKT004', 'POL001', 'Rabu', '08:00:00', '12:00:00', 'Aktif'),
+
+-- Poli Anak (POL002)
+('JDW004', 'DKT001', 'POL002', 'Senin', '08:00:00', '17:30:00', 'Aktif'),
+('JDW005', 'DKT001', 'POL002', 'Rabu', '08:00:00', '17:30:00', 'Aktif'),
+('JDW006', 'DKT002', 'POL002', 'Selasa', '08:00:00', '17:30:00', 'Aktif'),
+('JDW007', 'DKT002', 'POL002', 'Kamis', '08:00:00', '17:30:00', 'Aktif'),
+
+-- Poli Gigi (POL003)
+('JDW008', 'DKT003', 'POL003', 'Rabu', '08:00:00', '17:30:00', 'Aktif'),
+('JDW009', 'DKT003', 'POL003', 'Jum''at', '08:00:00', '17:30:00', 'Aktif'),
+
+-- Poli Kandungan (POL004)
+('JDW010', 'DKT005', 'POL004', 'Senin', '09:00:00', '14:00:00', 'Aktif'),
+('JDW011', 'DKT005', 'POL004', 'Kamis', '09:00:00', '14:00:00', 'Aktif'),
+
+-- Poli Penyakit Dalam (POL005)
+('JDW012', 'DKT006', 'POL005', 'Selasa', '08:30:00', '13:30:00', 'Aktif'),
+('JDW013', 'DKT006', 'POL005', 'Jum''at', '08:30:00', '13:30:00', 'Aktif')
+ON CONFLICT (id_jadwal) DO NOTHING;
 
 INSERT INTO kunjungan (id_kunjungan, id_pasien, id_jadwal, tanggal_kunjungan, jenis_kunjungan, keluhan_awal, status_kunjungan) VALUES
 ('KNJ001', 'PSN001', 'JDW001', '2026-10-20', 'Rawat jalan', 'Demam', 'Selesai'),

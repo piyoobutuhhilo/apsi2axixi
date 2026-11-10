@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
+  output   = "./generated/client"
 }
 
 datasource db {
@@ -11,6 +11,7 @@ model akun {
   id_akun     String       @id @db.VarChar(12)
   username    String       @unique @db.VarChar(60)
   password    String       @db.VarChar(255)
+  role        String       @default("PASIEN") @db.VarChar(50) // RESEPSIONIS, DOKTER, PERAWAT, APOTEKER, PASIEN
   apoteker    apoteker?
   dokter      dokter?
   pasien      pasien?
@@ -78,6 +79,7 @@ model dokter {
   akun          akun            @relation(fields: [id_akun], references: [id_akun], onUpdate: NoAction, map: "fk_dokter_akun")
   jadwal_dokter jadwal_dokter[]
   rekam_medis   rekam_medis[]
+  booking       booking[]
 }
 
 model jadwal_dokter {
@@ -91,6 +93,7 @@ model jadwal_dokter {
   dokter        dokter      @relation(fields: [id_dokter], references: [id_dokter], onUpdate: NoAction, map: "fk_jadwal_dokter")
   poli          poli        @relation(fields: [id_poli], references: [id_poli], onUpdate: NoAction, map: "fk_jadwal_poli")
   kunjungan     kunjungan[]
+  booking       booking[]
 }
 
 model katalog_diagnosis {
@@ -140,6 +143,7 @@ model pasien {
   kunjungan     kunjungan[]
   akun          akun          @relation(fields: [id_akun], references: [id_akun], onUpdate: NoAction, map: "fk_pasien_akun")
   rekam_medis   rekam_medis[]
+  booking       booking[]
 }
 
 model pembayaran {
@@ -186,12 +190,13 @@ model perawat {
 }
 
 model poli {
-  id_poli        String          @id @db.VarChar(12)
-  nama_poli      String          @db.VarChar(150)
-  lokasi_poli    String          @db.VarChar(150)
-  deskripsi_poli String?         @db.VarChar(150)
-  status_poli    String          @db.VarChar(150)
-  jadwal_dokter  jadwal_dokter[]
+  id_poli       String          @id @db.VarChar(12)
+  nama_poli     String          @db.VarChar(150)
+  lokasi_poli   String          @db.VarChar(150)
+  deskripsi_poli String?        @db.VarChar(150)
+  status_poli   String          @db.VarChar(150)
+  jadwal_dokter jadwal_dokter[]
+  booking       booking[]
 }
 
 model rekam_medis {
@@ -243,4 +248,21 @@ model rujukan {
   diagnosis_rujukan String      @db.VarChar(150)
   status_rujukan    String      @db.VarChar(150)
   rekam_medis       rekam_medis @relation(fields: [id_rekam_medis], references: [id_rekam_medis], onUpdate: NoAction, map: "fk_rujukan_rm")
+}
+
+model booking {
+  id_booking          String        @id @db.VarChar(12)
+  id_pasien           String        @db.VarChar(12)
+  id_poli             String        @db.VarChar(12)
+  id_dokter           String        @db.VarChar(12)
+  id_jadwal           String        @db.VarChar(12)
+  kode_antrean        String        @db.VarChar(50)
+  tanggal_booking     DateTime      @default(now()) @db.Timestamp(6)
+  tanggal_pemeriksaan DateTime      @db.Timestamp(6)
+  status              String        @default("Menunggu") @db.VarChar(50)
+
+  pasien              pasien        @relation(fields: [id_pasien], references: [id_pasien], onUpdate: NoAction, map: "fk_booking_pasien")
+  poli                poli          @relation(fields: [id_poli], references: [id_poli], onUpdate: NoAction, map: "fk_booking_poli")
+  dokter              dokter        @relation(fields: [id_dokter], references: [id_dokter], onUpdate: NoAction, map: "fk_booking_dokter")
+  jadwal              jadwal_dokter @relation(fields: [id_jadwal], references: [id_jadwal], onUpdate: NoAction, map: "fk_booking_jadwal")
 }
