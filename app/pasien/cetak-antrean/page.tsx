@@ -1,5 +1,6 @@
 "use client";
 
+import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -55,8 +56,6 @@ export default function CetakAntreanPage() {
         const json = await res.json();
         if (json.data) {
           setAntreanList(json.data);
-          // Jika hanya ada 1 booking, langsung buka struknya
-          // Jika ada lebih dari 1 booking, biarkan null agar user memilih kartu terlebih dahulu
           if (json.data.length === 1) {
             setSelectedTicket(json.data[0]);
           }
@@ -85,7 +84,7 @@ export default function CetakAntreanPage() {
         <button
           onClick={() => {
             if (selectedTicket && antreanList.length > 1) {
-              setSelectedTicket(null); // Kembali ke daftar pilihan tiket jika ada banyak booking
+              setSelectedTicket(null);
             } else {
               router.push("/pasien/dashboard");
             }
@@ -184,8 +183,7 @@ export default function CetakAntreanPage() {
           </div>
         ) : (
           /* ================= TAMPILAN DETAIL STRUK CETAK ================= */
-          <div className="w-full max-w-xl flex flex-col items-center">
-            {/* Navigasi ganti kartu jika ada multi-booking */}
+          <div className="w-full max-w-md flex flex-col items-center">
             {antreanList.length > 1 && (
               <div className="print:hidden w-full flex justify-between items-center mb-4 px-2">
                 <button
@@ -276,16 +274,26 @@ export default function CetakAntreanPage() {
                 </div>
               </div>
 
-              {/* Barcode Visual */}
-              <div className="w-full flex flex-col items-center border-t-2 border-dashed border-slate-300 pt-4 mt-2">
-                <div className="font-mono text-xl sm:text-2xl tracking-[0.35em] text-slate-800 select-all font-bold">
-                  ||| | ||||| | || |||| |
+              {/* QR Code Container (Presisi Serasi dengan Resepsionis) */}
+              <div className="w-full flex flex-col items-center border-t-2 border-dashed border-slate-300 pt-5 mt-2">
+                <div className="p-3 bg-white border border-slate-200 rounded-2xl shadow-sm">
+                  <QRCodeSVG
+                    value={selectedTicket.kode_antrean || selectedTicket.id_booking}
+                    size={140}
+                    level="H"
+                    includeMargin={false}
+                  />
                 </div>
-                <span className="text-[10px] font-mono text-slate-500 mt-1">
+                
+                <span className="text-[11px] font-mono font-bold text-slate-700 tracking-widest mt-2">
+                  {selectedTicket.kode_antrean}
+                </span>
+                <span className="text-[9px] font-mono text-slate-400">
                   ID: {selectedTicket.id_booking}
                 </span>
+
                 <p className="text-[10px] text-slate-400 italic text-center mt-3">
-                  *Harap tunjukkan struk antrean ini kepada petugas loket saat tiba di puskesmas.
+                  *Tunjukkan QR Code ini kepada resepsionis / scan pada scanner loket saat tiba di puskesmas.
                 </p>
               </div>
             </div>
