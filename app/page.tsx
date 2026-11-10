@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 export default function HomePage() {
   const router = useRouter();
-  // State untuk mengontrol apakah menu pilihan peran sudah dibuka
   const [showRoles, setShowRoles] = useState(false);
 
   const roles = [
@@ -22,7 +21,7 @@ export default function HomePage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1e5f44] flex items-center justify-center p-3 md:p-6 font-sans select-none overflow-hidden">
-      {/* Kontainer Layar Penuh Melengkung Sesuai Screenshot */}
+      {/* Kontainer Layar Penuh Melengkung */}
       <div className="relative w-full h-[94vh] max-w-[98vw] rounded-[36px] overflow-hidden shadow-2xl border-4 border-emerald-400/40 bg-slate-900 flex flex-col justify-between">
         {/* Background Foto Lobi Puskesmas Full Cover */}
         <div className="absolute inset-0 z-0">
@@ -68,27 +67,28 @@ export default function HomePage() {
 
         {/* ================= BAGIAN KANAN BAWAH ================= */}
         <div className="relative z-10 p-6 md:p-10 flex justify-end items-end">
-          <div className="flex items-center gap-4">
-            {/* Daftar Pilihan Aktor: Muncul saat tombol Masuk ditekan */}
-            {showRoles && (
-              <div className="flex flex-col space-y-2.5 w-60 md:w-64 animate-in fade-in slide-in-from-right-4 duration-300">
-                {roles.map((item) => (
-                  <button
-                    key={item.label}
-                    onClick={() => handleRoleClick(item.path)}
-                    className="w-full py-2.5 px-6 rounded-full text-xs md:text-sm font-semibold tracking-wide shadow-md bg-[#23533e] hover:bg-[#1b4332] active:scale-95 text-white border border-emerald-300/30 text-center transition-all cursor-pointer"
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Kotak Ikon Gembok & Tombol Masuk */}
-            <div className="bg-[#d8eee5]/95 backdrop-blur-md rounded-2xl p-3 md:p-3.5 border-2 border-white/70 shadow-2xl flex flex-col items-center justify-between w-28 md:w-32 h-[175px]">
+          {showRoles ? (
+            /* Saat sudah diklik: Kotak masuk hilang, berganti dengan daftar pilihan aktor */
+            <div className="flex flex-col space-y-2.5 w-60 md:w-64 animate-in fade-in slide-in-from-bottom-4 duration-300">
+              {roles.map((item) => (
+                <button
+                  key={item.label}
+                  onClick={() => handleRoleClick(item.path)}
+                  className="w-full py-2.5 px-6 rounded-full text-xs md:text-sm font-semibold tracking-wide shadow-md bg-[#23533e] hover:bg-[#1b4332] active:scale-95 text-white border border-emerald-300/30 text-center transition-all cursor-pointer"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          ) : (
+            /* Tampilan awal: Hanya ada kotak gembok & tulisan Masuk. Begitu diklik langsung membuka peran */
+            <div
+              onClick={() => setShowRoles(true)}
+              className="bg-[#d8eee5]/95 hover:bg-[#c3e6d8] backdrop-blur-md rounded-2xl p-3 md:p-3.5 border-2 border-white/70 shadow-2xl flex flex-col items-center justify-between w-28 md:w-32 h-[175px] cursor-pointer transition-all hover:scale-105 active:scale-95 group"
+            >
               {/* Ikon Gembok Medis */}
               <div className="flex-1 flex items-center justify-center">
-                <div className="w-14 h-14 rounded-full border-2 border-[#1f5c43] bg-white flex items-center justify-center text-[#1f5c43] shadow-inner">
+                <div className="w-14 h-14 rounded-full border-2 border-[#1f5c43] bg-white flex items-center justify-center text-[#1f5c43] shadow-inner group-hover:bg-[#1f5c43] group-hover:text-white transition-colors">
                   <svg
                     className="w-7 h-7"
                     fill="none"
@@ -105,15 +105,12 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Tombol Masuk: Saat ditekan membuka pilihan peran */}
-              <button
-                onClick={() => setShowRoles(!showRoles)}
-                className="w-full bg-[#23533e] hover:bg-[#1b4332] active:scale-95 text-white text-xs font-bold py-2 rounded-xl shadow-md border border-emerald-400/40 transition-all cursor-pointer"
-              >
+              {/* Tulisan Tombol Masuk */}
+              <div className="w-full bg-[#23533e] group-hover:bg-[#1b4332] text-white text-xs font-bold py-2 rounded-xl shadow-md border border-emerald-400/40 text-center transition-all">
                 Masuk
-              </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

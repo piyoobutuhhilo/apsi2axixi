@@ -4,6 +4,13 @@ import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+interface JadwalDetail {
+  id_jadwal?: string;
+  hari?: string;
+  jam_mulai?: string | Date;
+  jam_selesai?: string | Date;
+}
+
 interface AntreanItem {
   id_booking: string;
   kode_antrean: string;
@@ -21,6 +28,7 @@ interface AntreanItem {
   dokter?: {
     nama_dokter: string;
   };
+  jadwal?: JadwalDetail;
 }
 
 function formatTanggalIndo(dateStr: string): string {
@@ -34,12 +42,32 @@ function formatTanggalIndo(dateStr: string): string {
   });
 }
 
-function formatJamIndo(dateStr: string): string {
-  if (!dateStr) return "08.30 WIB";
-  const date = new Date(dateStr);
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-  return `Pukul ${hours}.${minutes} WIB`;
+function formatWaktuPemeriksaan(item: AntreanItem): string {
+  if (item.jadwal?.jam_mulai) {
+    const parseTime = (timeVal: string | Date) => {
+      if (typeof timeVal === "string") {
+        return timeVal.slice(0, 5).replace(":", ".");
+      }
+      const d = new Date(timeVal);
+      return `${String(d.getUTCHours()).padStart(2, "0")}.${String(d.getUTCMinutes()).padStart(2, "0")}`;
+    };
+
+    const mulai = parseTime(item.jadwal.jam_mulai);
+    const selesai = item.jadwal.jam_selesai ? parseTime(item.jadwal.jam_selesai) : null;
+
+    return selesai ? `Pukul ${mulai} - ${selesai} WIB` : `Pukul ${mulai} WIB`;
+  }
+
+  if (item.tanggal_pemeriksaan && item.tanggal_pemeriksaan.includes("T")) {
+    const date = new Date(item.tanggal_pemeriksaan);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    if (hours !== 0 || minutes !== 0) {
+      return `Pukul ${String(hours).padStart(2, "0")}.${String(minutes).padStart(2, "0")} WIB`;
+    }
+  }
+
+  return "Sesuai Jam Operasional Dokter";
 }
 
 export default function CetakAntreanPage() {
@@ -173,7 +201,7 @@ export default function CetakAntreanPage() {
 
                   <div className="mt-4 pt-3 border-t border-slate-200 flex justify-between items-center text-xs">
                     <span className="text-slate-500">
-                      {formatTanggalIndo(item.tanggal_pemeriksaan).split(",")[0]}, {formatJamIndo(item.tanggal_pemeriksaan)}
+                      {formatTanggalIndo(item.tanggal_pemeriksaan).split(",")[0]}, {formatWaktuPemeriksaan(item)}
                     </span>
                     <span className="font-bold text-[#1b5d44]">Buka Tiket →</span>
                   </div>
@@ -268,13 +296,13 @@ export default function CetakAntreanPage() {
                     {formatTanggalIndo(selectedTicket.tanggal_pemeriksaan)}
                     <br />
                     <span className="text-emerald-700 font-semibold text-[11px]">
-                      {formatJamIndo(selectedTicket.tanggal_pemeriksaan)}
+                      {formatWaktuPemeriksaan(selectedTicket)}
                     </span>
                   </span>
                 </div>
               </div>
 
-              {/* QR Code Container (Presisi Serasi dengan Resepsionis) */}
+              {/* QR Code Container */}
               <div className="w-full flex flex-col items-center border-t-2 border-dashed border-slate-300 pt-5 mt-2">
                 <div className="p-3 bg-white border border-slate-200 rounded-2xl shadow-sm">
                   <QRCodeSVG
@@ -306,7 +334,7 @@ export default function CetakAntreanPage() {
                 className="bg-[#1b5d44] hover:bg-[#154633] text-white font-extrabold text-xs md:text-sm px-8 py-3 rounded-2xl shadow-lg border-b-2 border-black/40 transition active:scale-95 cursor-pointer flex items-center gap-2"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                 </svg>
                 <span>Cetak / Simpan PDF</span>
               </button>

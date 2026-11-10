@@ -120,13 +120,24 @@ function FormBookingContent() {
     setOpenDropdown(null);
   };
 
+  // Fungsi untuk reset form agar user dapat membuat booking baru
+  const handleResetFormBooking = () => {
+    setSelectedPoli(null);
+    setSelectedDokter(null);
+    setSelectedJadwal(null);
+    setOpenDropdown(null);
+    setModalSukses(null);
+    if (editId) {
+      router.replace("/pasien/booking/baru");
+    }
+  };
+
   // Submit Simpan (POST untuk Baru / PUT untuk Edit)
   const handleSubmitBooking = async () => {
     if (!selectedPoli) return alert("Silakan pilih Poli Tujuan terlebih dahulu!");
     if (!selectedDokter) return alert("Silakan pilih Dokter terlebih dahulu!");
     if (!selectedJadwal) return alert("Silakan pilih Jadwal Praktek terlebih dahulu!");
 
-    // Ambil identitas opsional dari localStorage jika ada (sebagai data pendukung)
     let namaPasienLogin = "";
     let usernamePasienLogin = "";
     let idAkunLogin = "";
@@ -182,7 +193,7 @@ function FormBookingContent() {
       }
 
       setModalSukses({
-        kode: resJson.data?.kode_antrean || editId || "TERUPDATE",
+        kode: resJson.data?.kode_antrean || editId || "TERDAFTAR",
         isEdit: Boolean(editId),
       });
     } catch (err) {
@@ -388,7 +399,7 @@ function FormBookingContent() {
 
       {/* Modal Popup Konfirmasi */}
       {modalSukses && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-in fade-in duration-200">
           <div className="w-full max-w-sm bg-white rounded-3xl p-6 shadow-2xl border border-emerald-300 flex flex-col items-center text-center">
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mb-4">
               ✓
@@ -408,12 +419,32 @@ function FormBookingContent() {
               </div>
             )}
 
-            <button
-              onClick={() => router.push("/pasien/booking/riwayat")}
-              className="w-full mt-3 bg-[#1b5d44] hover:bg-[#154633] text-white font-bold text-xs py-3 rounded-xl transition cursor-pointer shadow-md"
-            >
-              Lihat Riwayat Booking
-            </button>
+            {/* Kelompok Aksi Fleksibel: Booking Lagi, Cetak, atau Riwayat */}
+            <div className="w-full flex flex-col gap-2 mt-4">
+              <button
+                type="button"
+                onClick={handleResetFormBooking}
+                className="w-full bg-[#1b5d44] hover:bg-[#154633] text-white font-extrabold text-xs py-3 rounded-xl transition cursor-pointer shadow-md active:scale-95"
+              >
+                + Buat Booking Jadwal Lain
+              </button>
+
+              <button
+                type="button"
+                onClick={() => router.push("/pasien/antrean/cetak")}
+                className="w-full bg-emerald-100 hover:bg-emerald-200 text-[#1b5d44] font-bold text-xs py-2.5 rounded-xl transition cursor-pointer border border-emerald-300"
+              >
+                Cetak Tiket Antrean Sekarang
+              </button>
+
+              <button
+                type="button"
+                onClick={() => router.push("/pasien/booking/riwayat")}
+                className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs py-2.5 rounded-xl transition cursor-pointer"
+              >
+                Lihat Riwayat Booking
+              </button>
+            </div>
           </div>
         </div>
       )}
