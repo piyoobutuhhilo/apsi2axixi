@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
     const cleanUsername = username.trim().toLowerCase();
 
-    // 1. Cari akun dan relasi profil pasiennya
+    
     const akun = await prisma.akun.findUnique({
       where: { username: cleanUsername },
       include: { pasien: true },
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Jika akun terdaftar belum memiliki baris profil di tabel pasien, buatkan otomatis
+    
     let pasien = akun.pasien;
     if (!pasien && akun.role === "PASIEN") {
       const namaTampil = cleanUsername.charAt(0).toUpperCase() + cleanUsername.slice(1);
@@ -47,11 +47,11 @@ export async function POST(request: Request) {
       });
     }
 
-    // 3. Pasang Cookie Sesi Server
+    
     const cookieStore = await cookies();
     const cookieConfig = {
       path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 7 hari
+      maxAge: 60 * 60 * 24 * 7, 
       httpOnly: false,
       sameSite: "lax" as const,
     };

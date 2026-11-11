@@ -37,7 +37,7 @@ function parseJamString(timeVal: string | Date | undefined | null): string | nul
   if (!timeVal) return null;
   const str = String(timeVal);
 
-  // Jika format ISO Prisma (misal: "1970-01-01T08:30:00.000Z")
+ 
   if (str.includes("T")) {
     const timePart = str.split("T")[1];
     const parts = timePart.split(":");
@@ -46,18 +46,18 @@ function parseJamString(timeVal: string | Date | undefined | null): string | nul
     }
   }
 
-  // Jika format waktu string biasa (misal: "08:30:00" atau "08:30")
+  
   if (str.includes(":")) {
     const parts = str.split(":");
     if (parts.length >= 2) {
-      // Menghapus spasi atau karakter non-angka jika ada
+    
       const h = parts[0].trim().slice(-2);
       const m = parts[1].trim().slice(0, 2);
       return `${h}.${m}`;
     }
   }
 
-  // Jika objek Date valid
+  
   try {
     const d = new Date(timeVal);
     if (!isNaN(d.getTime())) {
@@ -81,7 +81,7 @@ function formatWaktuPemeriksaan(item: BookingItem): string {
     return `Pukul ${mulai} WIB`;
   }
 
-  // Fallback: Jika tanggal_pemeriksaan mengandung jam non-nol
+  
   if (item.tanggal_pemeriksaan && item.tanggal_pemeriksaan.includes("T")) {
     const timePart = item.tanggal_pemeriksaan.split("T")[1];
     const parts = timePart.split(":");
@@ -99,7 +99,7 @@ export default function RiwayatBookingPasienPage() {
   const [riwayat, setRiwayat] = useState<BookingItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // State Modal
+  
   const [modalDetail, setModalDetail] = useState<BookingItem | null>(null);
   const [targetHapus, setTargetHapus] = useState<string | null>(null);
 
@@ -145,12 +145,12 @@ export default function RiwayatBookingPasienPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1b5d44] text-gray-900 overflow-hidden flex flex-col font-sans select-none p-5 md:p-8">
-      {/* Ornamen Lingkaran Sisi Kiri Atas */}
+      {}
       <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-16 -left-12 w-64 h-64 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-48 -left-20 w-72 h-72 rounded-full bg-white/5 pointer-events-none" />
 
-      {/* Tombol Kembali */}
+      {}
       <div className="relative z-10 w-full mb-4">
         <button
           onClick={() => router.push("/pasien/booking")}
@@ -163,21 +163,21 @@ export default function RiwayatBookingPasienPage() {
         </button>
       </div>
 
-      {/* Badge Tab Judul */}
+      {}
       <div className="relative z-10 w-full max-w-xs mb-3">
         <div className="bg-[#00a859] text-white font-extrabold text-sm md:text-base py-2.5 px-8 rounded-full shadow-md text-center border-2 border-emerald-900/20">
           Data Booking Pengguna
         </div>
       </div>
 
-      {/* Kontainer Utama Tabel */}
+      {}
       <div className="relative z-10 w-full flex-1 bg-[#d5dde2] rounded-[32px] overflow-hidden shadow-2xl flex flex-col border border-emerald-900/30">
-        {/* Header Hasil Pemeriksaan */}
+        {}
         <div className="w-full bg-[#00a859] text-white font-extrabold text-base md:text-lg py-3 text-center shadow-sm">
           Hasil Pemeriksaan
         </div>
 
-        {/* Kolom Judul Tabel */}
+        {}
         <div className="w-full grid grid-cols-12 bg-[#b8ddca] border-b-2 border-slate-400 text-center font-black text-xs md:text-sm text-slate-900 py-2.5">
           <div className="col-span-2 border-r border-slate-400">ID / Kode</div>
           <div className="col-span-4 border-r border-slate-400">Tanggal Booking</div>
@@ -185,7 +185,7 @@ export default function RiwayatBookingPasienPage() {
           <div className="col-span-2">Aksi</div>
         </div>
 
-        {/* Konten Data Baris */}
+        {}
         <div className="flex-1 overflow-y-auto">
           {loading ? (
             <div className="text-center py-16 text-slate-600 font-bold text-sm">
@@ -207,7 +207,7 @@ export default function RiwayatBookingPasienPage() {
                     isBatal ? "bg-rose-50/70 opacity-90" : "bg-[#d5dde2]"
                   }`}
                 >
-                  {/* Kolom ID / Kode Antrean */}
+                  {}
                   <div className="col-span-2 border-r border-slate-400 flex flex-col items-center justify-center p-3 text-center">
                     <span className={`font-bold ${isBatal ? "line-through text-rose-800" : ""}`}>
                       {item.id_pasien || item.id_booking}
@@ -217,12 +217,12 @@ export default function RiwayatBookingPasienPage() {
                     </span>
                   </div>
 
-                  {/* Kolom Tanggal Booking */}
+                  {}
                   <div className="col-span-4 border-r border-slate-400 flex items-center p-3 font-sans">
                     <span>{formatTanggalIndo(item.tanggal_booking)}</span>
                   </div>
 
-                  {/* Kolom Tanggal Pemeriksaan + Jam Akurat */}
+                  {}
                   <div className="col-span-4 border-r border-slate-400 flex flex-col justify-center p-3 font-sans leading-tight">
                     <span className={`font-semibold ${isBatal ? "line-through text-slate-500" : ""}`}>
                       {formatTanggalIndo(item.tanggal_pemeriksaan)}
@@ -231,7 +231,7 @@ export default function RiwayatBookingPasienPage() {
                       {formatWaktuPemeriksaan(item)}
                     </span>
 
-                    {/* BADGE INDIKASI STATUS */}
+                    {}
                     <div className="mt-1.5 flex items-center gap-2">
                       {isBatal && (
                         <span className="inline-flex items-center gap-1 bg-rose-100 text-rose-800 border border-rose-300 text-[10px] font-extrabold px-2 py-0.5 rounded-md">
@@ -251,9 +251,9 @@ export default function RiwayatBookingPasienPage() {
                     </div>
                   </div>
 
-                  {/* Kolom Tombol Aksi */}
+                  {}
                   <div className="col-span-2 grid grid-cols-3 h-full">
-                    {/* Tombol Lihat (Biru) */}
+                    {}
                     <button
                       onClick={() => setModalDetail(item)}
                       className="bg-[#0b5cbf] hover:bg-[#084896] text-white flex flex-col sm:flex-row items-center justify-center gap-1 text-[11px] font-bold p-1 transition cursor-pointer"
@@ -263,7 +263,7 @@ export default function RiwayatBookingPasienPage() {
                       <span className="hidden sm:inline">Lihat</span>
                     </button>
 
-                    {/* Tombol Edit (Kuning) */}
+                    {}
                     <button
                       disabled={isBatal}
                       onClick={() => handleEdit(item)}
@@ -278,7 +278,7 @@ export default function RiwayatBookingPasienPage() {
                       <span className="hidden sm:inline">Edit</span>
                     </button>
 
-                    {/* Tombol Hapus (Merah) */}
+                    {}
                     <button
                       onClick={() => setTargetHapus(item.id_booking)}
                       className="bg-[#b91c1c] hover:bg-[#991b1b] text-white flex flex-col sm:flex-row items-center justify-center gap-1 text-[11px] font-bold p-1 transition cursor-pointer"
@@ -295,7 +295,7 @@ export default function RiwayatBookingPasienPage() {
         </div>
       </div>
 
-      {/* Modal Detail Tiket (Lihat) */}
+      {}
       {modalDetail && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
           <div className="w-full max-w-sm bg-white rounded-3xl p-6 shadow-2xl border border-emerald-300 flex flex-col">
@@ -358,7 +358,7 @@ export default function RiwayatBookingPasienPage() {
         </div>
       )}
 
-      {/* Modal Konfirmasi Hapus */}
+      {}
       {targetHapus && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
           <div className="w-full max-w-sm bg-[#e2f0e9] rounded-3xl p-6 shadow-2xl border-2 border-slate-300 flex flex-col items-center">

@@ -60,10 +60,10 @@ export default function ResetPasswordPasienPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1e5f44] flex items-center justify-center p-3 md:p-6 font-sans select-none overflow-hidden">
-      {/* Container Utama Layar Penuh dengan Sudut Membulat */}
+      {}
       <div className="relative w-full h-[94vh] max-w-[98vw] rounded-[36px] overflow-hidden shadow-2xl border-4 border-emerald-400/40 bg-slate-900 flex">
         
-        {/* Background Foto Ruang Tunggu di Sisi Kanan / Full */}
+        {}
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop"
@@ -72,10 +72,10 @@ export default function ResetPasswordPasienPage() {
           />
         </div>
 
-        {/* Panel Form Sisi Kiri Berwarna Mint dengan Lengkungan Kanan */}
+        {}
         <div className="relative z-10 w-full sm:w-[460px] md:w-[500px] h-full bg-[#d8eee5] rounded-r-[55px] p-8 md:p-12 flex flex-col justify-between shadow-2xl">
           
-          {/* Tombol Kembali di Pojok Kiri Atas */}
+          {}
           <div>
             <button
               onClick={() => router.push("/pasien/login")}
@@ -89,9 +89,9 @@ export default function ResetPasswordPasienPage() {
             </button>
           </div>
 
-          {/* Form Perbarui Password Tengah */}
+          {}
           <div className="w-full max-w-sm mx-auto -mt-10">
-            {/* Notifikasi Error & Sukses */}
+            {}
             {errorMessage && (
               <div className="mb-4 bg-rose-600/90 text-white text-xs font-semibold px-4 py-2 rounded-xl text-center shadow">
                 {errorMessage}
@@ -103,7 +103,7 @@ export default function ResetPasswordPasienPage() {
               </div>
             )}
 
-            {/* Judul Teks Serif Sesuai Gambar */}
+            {}
             <div className="mb-8">
               <h1 className="text-2xl md:text-3xl font-serif text-slate-900 leading-snug">
                 Perbarui Password
@@ -114,7 +114,7 @@ export default function ResetPasswordPasienPage() {
             </div>
 
             <form onSubmit={handleLanjutkan} className="space-y-4">
-              {/* Input Email / Nomor Telepon */}
+              {}
               <div>
                 <input
                   type="text"
@@ -125,7 +125,7 @@ export default function ResetPasswordPasienPage() {
                 />
               </div>
 
-              {/* Input Password Baru */}
+              {}
               <div>
                 <input
                   type="password"
@@ -136,7 +136,7 @@ export default function ResetPasswordPasienPage() {
                 />
               </div>
 
-              {/* Input Ulangi Password Baru */}
+              {}
               <div>
                 <input
                   type="password"
@@ -147,7 +147,7 @@ export default function ResetPasswordPasienPage() {
                 />
               </div>
 
-              {/* Tombol Teks LANJUTKAN di Kanan Bawah Sesuai Gambar Acuan */}
+              {}
               <div className="flex justify-end pt-2">
                 <button
                   type="submit"
@@ -160,7 +160,7 @@ export default function ResetPasswordPasienPage() {
             </form>
           </div>
 
-          {/* Placeholder kosong bawah untuk menjaga proporsi vertikal */}
+          {}
           <div className="h-6" />
         </div>
       </div>

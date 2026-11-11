@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    // Ambil semua data poli aktif beserta dokter dan jadwal dokternya
+    
     const poliList = await prisma.poli.findMany({
       where: { status_poli: "Aktif" },
       include: {
@@ -17,9 +17,9 @@ export async function GET() {
       orderBy: { id_poli: "asc" },
     });
 
-    // Format data agar mudah diproses di cascading dropdown frontend
+   
     const formatted = poliList.map((p) => {
-      // Kelompokkan dokter yang berpraktek di poli ini
+      
       const dokterMap = new Map<string, any>();
 
       p.jadwal_dokter.forEach((j) => {
@@ -31,7 +31,7 @@ export async function GET() {
           });
         }
 
-        // Format waktu HH.mm
+        
         const mulai = j.jam_mulai.toISOString().split("T")[1]?.slice(0, 5).replace(":", ".") || "08.00";
         const selesai = j.jam_selesai.toISOString().split("T")[1]?.slice(0, 5).replace(":", ".") || "17.00";
 

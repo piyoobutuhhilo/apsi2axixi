@@ -53,10 +53,10 @@ export default function LoginResepsionisPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1e5f44] flex items-center justify-center p-3 md:p-6 font-sans select-none overflow-hidden">
-      {/* Container Utama Layar Penuh Melengkung */}
+      {}
       <div className="relative w-full h-[94vh] max-w-[98vw] rounded-[36px] overflow-hidden shadow-2xl border-4 border-emerald-400/40 bg-slate-900 flex">
         
-        {/* Background Foto Ruang Tunggu / Lobi Full */}
+        {}
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop"
@@ -65,10 +65,10 @@ export default function LoginResepsionisPage() {
           />
         </div>
 
-        {/* Panel Form Sisi Kiri Berwarna Mint */}
+        {}
         <div className="relative z-10 w-full sm:w-[460px] md:w-[500px] h-full bg-[#d8eee5] rounded-r-[55px] p-8 md:p-12 flex flex-col justify-between shadow-2xl">
           
-          {/* Tombol Kembali */}
+          {}
           <div>
             <button
               onClick={() => router.push("/")}
@@ -82,16 +82,16 @@ export default function LoginResepsionisPage() {
             </button>
           </div>
 
-          {/* Form Login Tengah */}
+          {}
           <div className="w-full max-w-sm mx-auto -mt-6">
-            {/* Notifikasi Error */}
+            {}
             {errorMessage && (
               <div className="mb-4 bg-rose-600 text-white text-xs font-semibold px-4 py-2.5 rounded-2xl text-center shadow">
                 {errorMessage}
               </div>
             )}
 
-            {/* Judul Teks Serif Sesuai Format */}
+            {}
             <div className="mb-6">
               <h1 className="text-2xl md:text-3xl font-serif text-slate-900 leading-snug">
                 Selamat Datang,
@@ -102,7 +102,7 @@ export default function LoginResepsionisPage() {
             </div>
 
             <form onSubmit={handleLogin} className="space-y-3.5">
-              {/* Input ID Resepsionis */}
+              {}
               <div>
                 <input
                   type="text"
@@ -114,7 +114,7 @@ export default function LoginResepsionisPage() {
                 />
               </div>
 
-              {/* Input Password */}
+              {}
               <div>
                 <input
                   type="password"
@@ -126,12 +126,12 @@ export default function LoginResepsionisPage() {
                 />
               </div>
 
-              {/* Keterangan Portal */}
+              {}
               <div className="text-[11px] text-slate-600 pt-1 px-1">
                 <p>Khusus Petugas Loket & Resepsionis Puskesmas Pauh</p>
               </div>
 
-              {/* Tombol Masuk */}
+              {}
               <div className="pt-4 flex justify-end">
                 <button
                   type="submit"

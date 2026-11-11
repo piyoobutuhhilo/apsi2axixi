@@ -61,7 +61,7 @@ export default function RegisterPasienPage() {
         return;
       }
 
-      // Simpan session awal
+      
       localStorage.setItem(
         "user_puskesmas",
         JSON.stringify({
@@ -74,7 +74,7 @@ export default function RegisterPasienPage() {
       );
 
       setRegisteredName(json.data?.nama_pasien || formData.nama_pasien);
-      // Tampilkan pop-up modal berhasil
+     
       setShowModalSuccess(true);
     } catch (err) {
       setErrorMsg("Kendala jaringan saat menghubungi server!");
@@ -85,13 +85,13 @@ export default function RegisterPasienPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#1b5d44] flex items-center justify-center p-4 md:p-8 font-sans select-none relative overflow-hidden">
-      {/* Ornamen Latar Belakang */}
+      {}
       <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-white/10 pointer-events-none" />
 
-      {/* Kontainer Form */}
+      {}
       <div className="relative z-10 w-full max-w-xl bg-[#d5dde2] rounded-[32px] p-6 md:p-10 shadow-2xl border border-slate-300">
-        {/* Header Form */}
+        {}
         <div className="text-center mb-6">
           <div className="w-12 h-12 mx-auto bg-[#1b5d44] text-white rounded-2xl flex items-center justify-center font-black text-xl shadow mb-2">
             P
@@ -111,7 +111,7 @@ export default function RegisterPasienPage() {
         )}
 
         <form onSubmit={handleRegister} className="space-y-4 text-xs md:text-sm">
-          {/* Baris 1: Akun Login */}
+          {}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-slate-700 font-bold mb-1">
@@ -143,7 +143,7 @@ export default function RegisterPasienPage() {
             </div>
           </div>
 
-          {/* Baris 2: Nama Lengkap & NIK */}
+          {}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-slate-700 font-bold mb-1">
@@ -176,7 +176,7 @@ export default function RegisterPasienPage() {
             </div>
           </div>
 
-          {/* Baris 3: Tanggal Lahir & Jenis Kelamin */}
+          {}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-slate-700 font-bold mb-1">
@@ -206,7 +206,7 @@ export default function RegisterPasienPage() {
             </div>
           </div>
 
-          {/* Baris 4: Nomor Telepon / WA */}
+          {}
           <div>
             <label className="block text-slate-700 font-bold mb-1">
               Nomor Telepon / WhatsApp
@@ -221,7 +221,7 @@ export default function RegisterPasienPage() {
             />
           </div>
 
-          {/* Baris 5: Alamat Domisili */}
+          {}
           <div>
             <label className="block text-slate-700 font-bold mb-1">
               Alamat Domisili
@@ -236,7 +236,7 @@ export default function RegisterPasienPage() {
             />
           </div>
 
-          {/* Tombol Submit */}
+          {}
           <div className="pt-3">
             <button
               type="submit"
@@ -247,7 +247,7 @@ export default function RegisterPasienPage() {
             </button>
           </div>
 
-          {/* Link Masuk / Login */}
+          {}
           <div className="text-center pt-2">
             <p className="text-xs text-slate-600">
               Sudah memiliki akun terdaftar?{" "}
@@ -263,11 +263,11 @@ export default function RegisterPasienPage() {
         </form>
       </div>
 
-      {/* ================= MODAL POP-UP REGISTRASI BERHASIL ================= */}
+      {}
       {showModalSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-fadeIn">
           <div className="w-full max-w-sm bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-emerald-300 flex flex-col items-center text-center">
-            {/* Lingkaran Centang Hijau */}
+            {}
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl font-black mb-4 shadow-inner">
               ✓
             </div>

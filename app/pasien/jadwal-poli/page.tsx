@@ -124,11 +124,11 @@ export default function JadwalPoliPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1e5f44] text-gray-800 overflow-hidden flex flex-col font-sans select-none p-6 md:p-10">
-      {/* Ornamen Lingkaran Sudut Kiri Atas Seperti Gambar Word */}
+      {}
       <div className="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-12 -left-8 w-56 h-56 rounded-full bg-white/10 pointer-events-none" />
 
-      {/* Tombol Kembali (Bentuk Pill Khas Desain Asli) */}
+      {}
       <div className="relative z-10 mb-8">
         <button
           onClick={() => router.push("/pasien/dashboard")}
@@ -142,14 +142,14 @@ export default function JadwalPoliPage() {
       </div>
 
       <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col">
-        {/* Label Tab 'Pencarian Poli' Hijau Terang Pill */}
+        {}
         <div className="self-start -mb-1 z-20">
           <div className="bg-[#00a859] text-white text-sm font-bold px-10 py-2.5 rounded-full border-2 border-[#1e5f44] shadow-md">
             Pencarian Poli
           </div>
         </div>
 
-        {/* Input Bar Pencarian dengan Tombol 'Cari' Hijau */}
+        {}
         <div className="w-full bg-[#e2e8f0] rounded-full p-1.5 pl-6 flex items-center shadow-lg border border-white mb-8">
           <svg
             className="w-5 h-5 text-gray-500 mr-3"
@@ -172,14 +172,14 @@ export default function JadwalPoliPage() {
           </button>
         </div>
 
-        {/* Kotak Kontainer Besar 'Hasil Pencarian' */}
+        {}
         <div className="w-full rounded-3xl overflow-hidden shadow-2xl border-2 border-emerald-400">
-          {/* Header Bar Kontainer */}
+          {}
           <div className="bg-[#00a859] py-3 text-center text-white font-extrabold text-base tracking-wide">
             Hasil Pencarian
           </div>
 
-          {/* Area Konten Abu-abu di Bawahnya */}
+          {}
           <div className="bg-[#cdd7e1] p-6 md:p-8 min-h-[360px]">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {filteredPoli.map((item) => (

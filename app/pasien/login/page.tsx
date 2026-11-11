@@ -14,7 +14,7 @@ export default function LoginPasienPage() {
     e.preventDefault();
     setErrorMessage("");
 
-    // Ambil langsung nilai dari elemen input (menghindari bug browser autofill)
+   
     const formData = new FormData(e.currentTarget);
     const inputIdentifier = (formData.get("username") as string) || username;
     const inputPassword = (formData.get("password") as string) || password;
@@ -55,10 +55,10 @@ export default function LoginPasienPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1e5f44] flex items-center justify-center p-3 md:p-6 font-sans select-none overflow-hidden">
-      {/* Container Utama Layar Penuh dengan Sudut Membulat */}
+      {}
       <div className="relative w-full h-[94vh] max-w-[98vw] rounded-[36px] overflow-hidden shadow-2xl border-4 border-emerald-400/40 bg-slate-900 flex">
         
-        {/* Background Foto Ruang Tunggu di Sisi Kanan / Full */}
+        {}
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop"
@@ -67,10 +67,10 @@ export default function LoginPasienPage() {
           />
         </div>
 
-        {/* Panel Form Sisi Kiri Berwarna Mint dengan Lengkungan Kanan */}
+        {}
         <div className="relative z-10 w-full sm:w-[460px] md:w-[500px] h-full bg-[#d8eee5] rounded-r-[55px] p-8 md:p-12 flex flex-col justify-between shadow-2xl">
           
-          {/* Tombol Kembali di Pojok Kiri Atas */}
+          {}
           <div>
             <button
               onClick={() => router.push("/")}
@@ -84,16 +84,16 @@ export default function LoginPasienPage() {
             </button>
           </div>
 
-          {/* Form Login Tengah */}
+          {}
           <div className="w-full max-w-sm mx-auto -mt-6">
-            {/* Notifikasi Error Ringkas */}
+            {}
             {errorMessage && (
               <div className="mb-4 bg-rose-600 text-white text-xs font-semibold px-4 py-2.5 rounded-2xl text-center shadow">
                 {errorMessage}
               </div>
             )}
 
-            {/* Judul Teks Serif Sesuai Gambar */}
+            {}
             <div className="mb-6">
               <h1 className="text-2xl md:text-3xl font-serif text-slate-900 leading-snug">
                 Selamat Datang,
@@ -104,7 +104,7 @@ export default function LoginPasienPage() {
             </div>
 
             <form onSubmit={handleLogin} className="space-y-3.5">
-              {/* Input ID Pasien / Email */}
+              {}
               <div>
                 <input
                   type="text"
@@ -116,7 +116,7 @@ export default function LoginPasienPage() {
                 />
               </div>
 
-              {/* Input Password */}
+              {}
               <div>
                 <input
                   type="password"
@@ -128,7 +128,7 @@ export default function LoginPasienPage() {
                 />
               </div>
 
-              {/* Tautan Sign Up & Reset Password */}
+              {}
               <div className="flex justify-between items-start text-[11px] pt-1 px-1">
                 <div className="leading-tight text-slate-700">
                   <p>Belum Punya Akun?</p>
@@ -153,7 +153,7 @@ export default function LoginPasienPage() {
                 </div>
               </div>
 
-              {/* Tombol Masuk */}
+              {}
               <div className="pt-4 flex justify-end">
                 <button
                   type="submit"

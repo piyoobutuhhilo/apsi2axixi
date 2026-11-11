@@ -38,7 +38,6 @@ const idPoliDbMap: Record<string, string> = {
   "penyakit-dalam": "POL005",
 };
 
-// Komponen Anak: Semua hooks ditaruh di sini
 function JadwalDetailContent() {
   const router = useRouter();
   const params = useParams();
@@ -53,6 +52,9 @@ function JadwalDetailContent() {
   const [inputHari, setInputHari] = useState("");
   const [inputJam1, setInputJam1] = useState("");
   const [inputJam2, setInputJam2] = useState("17.00");
+
+  const [editJamTarget, setEditJamTarget] = useState<{ id_jadwal: string; jamMulai: string; jamSelesai: string } | null>(null);
+  const [loadingEditJam, setLoadingEditJam] = useState(false);
 
   const [deleteTarget, setDeleteTarget] = useState<{ id_jadwal: string } | null>(null);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
@@ -135,22 +137,39 @@ function JadwalDetailContent() {
     await fetchJadwal();
   };
 
-  const handleEditJam = async (id_jadwal: string, currentJam: string) => {
-    const input = prompt("Masukkan format jam baru (contoh: 08.00-14.00):", currentJam);
-    if (!input || !input.includes("-")) return;
+  const handleOpenEditJam = (id_jadwal: string, currentJam: string) => {
+    let mulai = "08.00";
+    let selesai = "14.00";
+    if (currentJam && currentJam.includes("-")) {
+      const parts = currentJam.split("-");
+      mulai = parts[0]?.trim() || "08.00";
+      selesai = parts[1]?.trim() || "14.00";
+    }
+    setEditJamTarget({ id_jadwal, jamMulai: mulai, jamSelesai: selesai });
+  };
 
-    const [mulai, selesai] = input.split("-");
-    await fetch("/api/jadwal", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id_jadwal,
-        jam_mulai: mulai.trim().replace(".", ":"),
-        jam_selesai: selesai.trim().replace(".", ":"),
-      }),
-    });
+  const handleSimpanEditJam = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editJamTarget) return;
 
-    await fetchJadwal();
+    try {
+      setLoadingEditJam(true);
+      await fetch("/api/jadwal", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id_jadwal: editJamTarget.id_jadwal,
+          jam_mulai: editJamTarget.jamMulai.trim().replace(".", ":"),
+          jam_selesai: editJamTarget.jamSelesai.trim().replace(".", ":"),
+        }),
+      });
+      setEditJamTarget(null);
+      await fetchJadwal();
+    } catch (err) {
+      alert("Gagal memperbarui jam kerja dokter!");
+    } finally {
+      setLoadingEditJam(false);
+    }
   };
 
   return (
@@ -198,7 +217,7 @@ function JadwalDetailContent() {
                           setActiveDokterId(dok.id);
                           setModalStep("HARI");
                         }}
-                        className="w-5 h-5 rounded-full bg-white text-[#23533e] flex items-center justify-center font-bold text-xs hover:bg-emerald-100"
+                        className="w-5 h-5 rounded-full bg-white text-[#23533e] flex items-center justify-center font-bold text-xs hover:bg-emerald-100 cursor-pointer"
                       >
                         +
                       </button>
@@ -213,7 +232,7 @@ function JadwalDetailContent() {
                           <span className="flex-1 text-center">{item.hari}</span>
                           <button
                             onClick={() => setDeleteTarget({ id_jadwal: item.id_jadwal })}
-                            className="text-slate-500 hover:text-red-600 transition"
+                            className="text-slate-500 hover:text-red-600 transition cursor-pointer"
                           >
                             🗑
                           </button>
@@ -235,8 +254,8 @@ function JadwalDetailContent() {
                         >
                           <span className="flex-1 text-center">{item.jam}</span>
                           <button
-                            onClick={() => handleEditJam(item.id_jadwal, item.jam)}
-                            className="bg-[#fef08a] hover:bg-[#fde047] text-slate-900 text-[10px] font-extrabold px-2 py-0.5 rounded shadow"
+                            onClick={() => handleOpenEditJam(item.id_jadwal, item.jam)}
+                            className="bg-[#fef08a] hover:bg-[#fde047] text-slate-900 text-[10px] font-extrabold px-2.5 py-0.5 rounded shadow cursor-pointer transition active:scale-95"
                           >
                             Edit
                           </button>
@@ -251,8 +270,65 @@ function JadwalDetailContent() {
         )}
       </div>
 
+      {editJamTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+          <div className="w-full max-w-sm bg-[#e2f0e9] rounded-3xl p-6 shadow-2xl border-2 border-slate-300 flex flex-col items-center relative">
+            <button
+              onClick={() => setEditJamTarget(null)}
+              className="absolute top-3 right-4 font-bold text-slate-600 hover:text-slate-900 cursor-pointer"
+            >
+              ✕
+            </button>
+            <div className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-800 text-xs font-semibold py-2 rounded-full text-center mb-4">
+              Edit Jam Kerja Dokter
+            </div>
+            <form onSubmit={handleSimpanEditJam} className="w-full flex flex-col items-center gap-3">
+              <div className="w-full flex flex-col gap-1">
+                <span className="text-[11px] font-bold text-slate-600 pl-2">Jam Mulai Praktek</span>
+                <input
+                  type="text"
+                  autoFocus
+                  value={editJamTarget.jamMulai}
+                  onChange={(e) => setEditJamTarget({ ...editJamTarget, jamMulai: e.target.value })}
+                  placeholder="08.00"
+                  className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-900 text-xs text-center py-2.5 rounded-full font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#20674f]"
+                />
+              </div>
+
+              <div className="w-full flex flex-col gap-1">
+                <span className="text-[11px] font-bold text-slate-600 pl-2">Jam Selesai Praktek</span>
+                <input
+                  type="text"
+                  value={editJamTarget.jamSelesai}
+                  onChange={(e) => setEditJamTarget({ ...editJamTarget, jamSelesai: e.target.value })}
+                  placeholder="14.00"
+                  className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-900 text-xs text-center py-2.5 rounded-full font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#20674f]"
+                />
+              </div>
+
+              <div className="flex gap-2 w-full justify-center mt-2">
+                <button
+                  type="button"
+                  onClick={() => setEditJamTarget(null)}
+                  className="bg-slate-300 hover:bg-slate-400 text-slate-800 text-[11px] font-extrabold px-5 py-2 rounded-lg cursor-pointer"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  disabled={loadingEditJam}
+                  className="bg-[#48de59] hover:bg-[#3ec44d] text-[#14532d] text-[11px] font-extrabold px-6 py-2 rounded-lg cursor-pointer transition active:scale-95 disabled:opacity-50"
+                >
+                  {loadingEditJam ? "Menyimpan..." : "Simpan Jam"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {deleteTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4 animate-in fade-in duration-150">
           <div className="w-full max-w-sm bg-[#e2f0e9] rounded-3xl p-6 shadow-2xl border-2 border-slate-300 flex flex-col items-center">
             <div className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-800 text-xs font-semibold py-2 rounded-full text-center mb-6">
               Yakin Hapus Jadwal Dokter
@@ -260,13 +336,13 @@ function JadwalDetailContent() {
             <div className="w-full flex flex-col items-center gap-2">
               <button
                 onClick={confirmHapusJadwal}
-                className="w-44 bg-[#48de59] hover:bg-[#3ec44d] text-slate-900 text-[11px] font-extrabold py-1.5 rounded-sm shadow"
+                className="w-44 bg-[#48de59] hover:bg-[#3ec44d] text-slate-900 text-[11px] font-extrabold py-1.5 rounded-sm shadow cursor-pointer"
               >
                 Ya
               </button>
               <button
                 onClick={() => setDeleteTarget(null)}
-                className="w-44 bg-[#ef4444] hover:bg-[#dc2626] text-white text-[11px] font-extrabold py-1.5 rounded-sm shadow"
+                className="w-44 bg-[#ef4444] hover:bg-[#dc2626] text-white text-[11px] font-extrabold py-1.5 rounded-sm shadow cursor-pointer"
               >
                 Tidak
               </button>
@@ -276,9 +352,9 @@ function JadwalDetailContent() {
       )}
 
       {modalStep === "HARI" && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4 animate-in fade-in duration-150">
           <div className="w-full max-w-sm bg-[#e2f0e9] rounded-3xl p-6 shadow-2xl border-2 border-slate-300 flex flex-col items-center relative">
-            <button onClick={() => setModalStep(null)} className="absolute top-3 right-4 font-bold text-slate-600">✕</button>
+            <button onClick={() => setModalStep(null)} className="absolute top-3 right-4 font-bold text-slate-600 cursor-pointer">✕</button>
             <div className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-800 text-xs font-semibold py-2 rounded-full text-center mb-4">
               Hari Kerja Baru Dokter
             </div>
@@ -289,9 +365,9 @@ function JadwalDetailContent() {
                 value={inputHari}
                 onChange={(e) => setInputHari(e.target.value)}
                 placeholder="Masukkan Hari"
-                className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-900 text-xs text-center py-4 rounded-2xl"
+                className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-900 text-xs text-center py-4 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#20674f]"
               />
-              <button type="submit" className="bg-[#48de59] hover:bg-[#3ec44d] text-[#14532d] text-[11px] font-extrabold px-6 py-1.5 rounded-lg">
+              <button type="submit" className="bg-[#48de59] hover:bg-[#3ec44d] text-[#14532d] text-[11px] font-extrabold px-6 py-1.5 rounded-lg cursor-pointer">
                 Tambahkan Jadwal
               </button>
             </form>
@@ -300,9 +376,9 @@ function JadwalDetailContent() {
       )}
 
       {modalStep === "JAM" && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4 animate-in fade-in duration-150">
           <div className="w-full max-w-sm bg-[#e2f0e9] rounded-3xl p-6 shadow-2xl border-2 border-slate-300 flex flex-col items-center relative">
-            <button onClick={() => setModalStep(null)} className="absolute top-3 right-4 font-bold text-slate-600">✕</button>
+            <button onClick={() => setModalStep(null)} className="absolute top-3 right-4 font-bold text-slate-600 cursor-pointer">✕</button>
             <div className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-800 text-xs font-semibold py-2 rounded-full text-center mb-4">
               Jam Kerja Baru Dokter
             </div>
@@ -313,16 +389,16 @@ function JadwalDetailContent() {
                 value={inputJam1}
                 onChange={(e) => setInputJam1(e.target.value)}
                 placeholder="08.00"
-                className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-900 text-xs text-center py-2.5 rounded-full"
+                className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-900 text-xs text-center py-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#20674f]"
               />
               <input
                 type="text"
                 value={inputJam2}
                 onChange={(e) => setInputJam2(e.target.value)}
                 placeholder="17.00"
-                className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-900 text-xs text-center py-2.5 rounded-full"
+                className="w-full bg-[#d3d7d8] border border-slate-400 text-slate-900 text-xs text-center py-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#20674f]"
               />
-              <button type="submit" className="bg-[#48de59] hover:bg-[#3ec44d] text-[#14532d] text-[11px] font-extrabold px-6 py-1.5 rounded-lg mt-1">
+              <button type="submit" className="bg-[#48de59] hover:bg-[#3ec44d] text-[#14532d] text-[11px] font-extrabold px-6 py-1.5 rounded-lg mt-1 cursor-pointer">
                 Perbarui Jadwal
               </button>
             </form>
@@ -333,7 +409,6 @@ function JadwalDetailContent() {
   );
 }
 
-// Export default HANYA membungkus JadwalDetailContent dengan Suspense
 export default function DetailJadwalResepsionisPage() {
   return (
     <Suspense

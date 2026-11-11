@@ -30,12 +30,12 @@ body {
   font-family: var(--font-archivo-black), sans-serif;
 }
 
-/* Scroll Halus */
+
 html {
   scroll-behavior: smooth;
 }
 
-/* Transisi Hover Universal */
+
 button,
 a,
 input,
@@ -43,7 +43,7 @@ select {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Keyframe & Class Animasi Perpindahan Halaman */
+
 @keyframes pageEnter {
   0% {
     opacity: 0;

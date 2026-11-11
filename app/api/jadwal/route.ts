@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 
 
-// 1. GET: Ambil daftar jadwal dokter
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
   }
 }
 
-// 2. POST: Tambah Hari & Jam Kerja Baru
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       }
     }
 
-    // Pastikan format TIME sesuai PostgreSQL (HH:mm:ss)
+   
     if (mulai.length === 5) mulai += ":00";
     if (selesai.length === 5) selesai += ":00";
 
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
   }
 }
 
-// 3. PUT: Edit Jam Kerja
+
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
@@ -118,7 +118,7 @@ export async function PUT(request: Request) {
   }
 }
 
-// 4. DELETE: Hapus Jadwal
+
 export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

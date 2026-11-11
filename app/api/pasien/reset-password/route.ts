@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Cari akun berdasarkan username/email
+    
     const akun = await prisma.akun.findUnique({
       where: { username: identifier },
     });
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Perbarui password di database PostgreSQL Docker
+    
     await prisma.akun.update({
       where: { id_akun: akun.id_akun },
       data: { password: passwordBaru },

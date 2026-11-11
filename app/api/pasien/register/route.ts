@@ -15,7 +15,7 @@ export async function POST(request: Request) {
       no_telepon,
     } = body;
 
-    // 1. Validasi field wajib
+    
     if (!username || !password || !nama_pasien || !nik) {
       return NextResponse.json(
         { message: "Username, Password, Nama Lengkap, dan NIK wajib diisi!" },
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     const cleanUsername = username.trim().toLowerCase();
     const cleanNik = String(nik).trim();
 
-    // 2. Cek apakah username atau NIK sudah terdaftar
+    
     const existingAkun = await prisma.akun.findUnique({
       where: { username: cleanUsername },
     });
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Parse tanggal lahir secara aman
+    
     let parsedTanggalLahir: Date = new Date("2000-01-01T00:00:00.000Z");
     if (tanggal_lahir) {
       const d = new Date(tanggal_lahir);
@@ -56,11 +56,11 @@ export async function POST(request: Request) {
       }
     }
 
-    // 3. Generate ID unik
+    
     const newIdAkun = `AKN${Date.now().toString().slice(-6)}`;
     const newIdPasien = `PSN${Date.now().toString().slice(-6)}`;
 
-    // 4. Simpan ke database
+    
     const result = await prisma.$transaction(async (tx) => {
       const createdAkun = await tx.akun.create({
         data: {

@@ -26,14 +26,14 @@ export default function JadwalDokterResepsionisPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#20674f] text-gray-800 overflow-hidden flex flex-col font-sans select-none p-5 md:p-8">
-      {/* Ornamen Lengkungan Abstrak Kiri Sesuai Gambar */}
+      {}
       <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-16 -left-12 w-64 h-64 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-48 -left-20 w-72 h-72 rounded-full bg-white/5 pointer-events-none" />
 
-      {/* ================= BAR ATAS ================= */}
+      {}
       <div className="relative z-10 w-full flex justify-between items-center mb-6">
-        {/* Tombol Kembali (Pojok Kiri Atas) */}
+        {}
         <button
           onClick={() => router.push("/resepsionis/dashboard")}
           className="inline-flex items-center space-x-2 bg-white/20 hover:bg-white/30 text-white text-xs md:text-sm font-semibold px-4 py-2 rounded-full border border-white/30 shadow-md transition cursor-pointer backdrop-blur-sm"
@@ -44,7 +44,7 @@ export default function JadwalDokterResepsionisPage() {
           <span>Kembali</span>
         </button>
 
-        {/* Tombol Kuning: Lihat Jadwal Kerja Perawat (Pojok Kanan Atas) */}
+        {}
         <button
           onClick={() => router.push("/resepsionis/jadwal/perawat")}
           className="bg-[#fef08a] hover:bg-[#fde047] text-slate-900 font-bold text-xs md:text-sm px-6 py-2.5 rounded-full shadow-md border border-amber-300 transition-all cursor-pointer hover:scale-[1.02]"
@@ -53,7 +53,7 @@ export default function JadwalDokterResepsionisPage() {
         </button>
       </div>
 
-      {/* ================= SEARCH BAR ================= */}
+      {}
       <div className="relative z-10 w-full mb-6">
         <div className="w-full bg-[#dbe2e6] rounded-full px-5 py-3 flex items-center shadow-md border border-white/80">
           <svg
@@ -79,21 +79,21 @@ export default function JadwalDokterResepsionisPage() {
         </div>
       </div>
 
-      {/* ================= KONTAINER ABU-ABU BESAR ================= */}
+      {}
       <div className="relative z-10 w-full flex-1 bg-[#d5dde2] rounded-[32px] p-6 md:p-10 shadow-2xl min-h-[460px] flex flex-col">
-        {/* List Baris Poli */}
+        {}
         <div className="flex flex-col space-y-4">
           {filteredPoli.map((poli) => (
             <div
               key={poli.id}
               className="w-full bg-[#3ea870] hover:bg-[#379764] rounded-full py-3 px-6 shadow-md border-b-4 border-[#1e4a36] flex items-center justify-between transition-all"
             >
-              {/* Nama Poli */}
+              {}
               <span className="text-white font-bold text-sm md:text-base tracking-wide drop-shadow-sm">
                 {poli.nama}
               </span>
 
-              {/* Tombol Lihat Jadwal di Sebelah Kanan */}
+              {}
               <button
                 onClick={() => router.push(`/resepsionis/jadwal/${poli.id}`)}
                 className="bg-[#bbf7d0] hover:bg-[#86efac] active:scale-95 text-[#14532d] text-xs font-extrabold px-5 py-1.5 rounded-full border border-[#22c55e] shadow-sm transition-all cursor-pointer"

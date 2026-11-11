@@ -21,9 +21,9 @@ export default function HomePage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1e5f44] flex items-center justify-center p-3 md:p-6 font-sans select-none overflow-hidden">
-      {/* Kontainer Layar Penuh Melengkung */}
+      {}
       <div className="relative w-full h-[94vh] max-w-[98vw] rounded-[36px] overflow-hidden shadow-2xl border-4 border-emerald-400/40 bg-slate-900 flex flex-col justify-between">
-        {/* Background Foto Lobi Puskesmas Full Cover */}
+        {}
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop"
@@ -33,9 +33,9 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-black/15 pointer-events-none" />
         </div>
 
-        {/* ================= BAGIAN ATAS ================= */}
+        {}
         <div className="relative z-10 p-6 md:p-8 flex flex-col items-center w-full">
-          {/* Tombol Kembali: Hanya muncul saat menu aktor terbuka */}
+          {}
           <div className="w-full flex justify-start min-h-[36px]">
             {showRoles && (
               <button
@@ -50,14 +50,14 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* Banner PUSKESMAS PAUH */}
+          {}
           <div className="bg-[#b8dcd0]/95 backdrop-blur-md px-12 md:px-24 py-4 rounded-2xl shadow-xl border border-white/60 text-center -mt-2">
             <h1 className="text-3xl md:text-5xl font-serif font-extrabold tracking-[0.25em] text-[#1e4a36]">
               PUSKESMAS PAUH
             </h1>
           </div>
 
-          {/* Banner Alamat */}
+          {}
           <div className="mt-3 bg-[#d8eee5]/95 backdrop-blur-md px-8 md:px-14 py-2 rounded-xl shadow-md border border-white/50 text-center">
             <p className="text-xs md:text-sm font-medium text-slate-800">
               Jl. Irigasi, Cupak Tangah, Kecamatan Pauh, Kota Padang, Sumatera Barat 25176.
@@ -65,10 +65,10 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ================= BAGIAN KANAN BAWAH ================= */}
+        {}
         <div className="relative z-10 p-6 md:p-10 flex justify-end items-end">
           {showRoles ? (
-            /* Saat sudah diklik: Kotak masuk hilang, berganti dengan daftar pilihan aktor */
+           
             <div className="flex flex-col space-y-2.5 w-60 md:w-64 animate-in fade-in slide-in-from-bottom-4 duration-300">
               {roles.map((item) => (
                 <button
@@ -81,12 +81,12 @@ export default function HomePage() {
               ))}
             </div>
           ) : (
-            /* Tampilan awal: Hanya ada kotak gembok & tulisan Masuk. Begitu diklik langsung membuka peran */
+            
             <div
               onClick={() => setShowRoles(true)}
               className="bg-[#d8eee5]/95 hover:bg-[#c3e6d8] backdrop-blur-md rounded-2xl p-3 md:p-3.5 border-2 border-white/70 shadow-2xl flex flex-col items-center justify-between w-28 md:w-32 h-[175px] cursor-pointer transition-all hover:scale-105 active:scale-95 group"
             >
-              {/* Ikon Gembok Medis */}
+              {}
               <div className="flex-1 flex items-center justify-center">
                 <div className="w-14 h-14 rounded-full border-2 border-[#1f5c43] bg-white flex items-center justify-center text-[#1f5c43] shadow-inner group-hover:bg-[#1f5c43] group-hover:text-white transition-colors">
                   <svg
@@ -105,7 +105,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Tulisan Tombol Masuk */}
+              {}
               <div className="w-full bg-[#23533e] group-hover:bg-[#1b4332] text-white text-xs font-bold py-2 rounded-xl shadow-md border border-emerald-400/40 text-center transition-all">
                 Masuk
               </div>

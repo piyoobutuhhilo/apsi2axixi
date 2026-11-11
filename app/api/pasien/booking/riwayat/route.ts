@@ -2,13 +2,13 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 
-// 1. GET: Ambil daftar booking pasien
+
 export async function GET() {
   try {
     const cookieStore = await cookies();
     const idAkun = cookieStore.get("user_id")?.value;
 
-    // Cari data pasien berdasarkan akun yang sedang login
+    
     const dataPasien = idAkun
       ? await prisma.pasien.findFirst({ where: { id_akun: idAkun } })
       : null;
@@ -36,7 +36,7 @@ export async function GET() {
   }
 }
 
-// 2. DELETE: Hapus / Batalkan booking
+
 export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

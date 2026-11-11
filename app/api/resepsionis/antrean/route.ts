@@ -22,11 +22,11 @@ export async function GET() {
     });
 
     const formatted = bookings.map((b, idx) => {
-      // Ambil nama pasien sebenarnya dari relasi booking -> pasien
+      
       const namaPasien =
         b.pasien?.nama_pasien || b.pasien?.akun?.username || "Pasien";
 
-      // Format inisial poli agar rapi (A-001, U-001, dll)
+     
       let hurufPoli = "A";
       const namaPoli = (b.poli?.nama_poli || "").toLowerCase();
       if (namaPoli.includes("umum")) hurufPoli = "U";

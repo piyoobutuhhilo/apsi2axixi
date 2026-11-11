@@ -103,10 +103,10 @@ export default function KelolaBookingResepsionisPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1e5f44] text-gray-900 flex items-center justify-center p-3 md:p-6 font-sans select-none overflow-hidden">
-      {/* Frame Kontainer Utama Senada dengan Dashboard */}
+      {}
       <div className="relative w-full h-[94vh] max-w-[98vw] rounded-[36px] overflow-hidden shadow-2xl border-4 border-emerald-400/40 bg-[#d8eee5] flex flex-col p-6 md:p-8">
         
-        {/* Tombol Kembali & Header */}
+        {}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4 pb-3 border-b border-emerald-800/20">
           <button
             onClick={() => router.push("/resepsionis/dashboard")}
@@ -128,7 +128,7 @@ export default function KelolaBookingResepsionisPage() {
           </div>
         </div>
 
-        {/* Filter Bar */}
+        {}
         <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl shadow-sm border border-emerald-900/10 flex flex-wrap gap-3 justify-between items-center mb-4">
           <input
             type="text"
@@ -172,7 +172,7 @@ export default function KelolaBookingResepsionisPage() {
           </div>
         </div>
 
-        {/* Tabel Data Booking */}
+        {}
         <div className="flex-1 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
           <div className="overflow-x-auto flex-1">
             <table className="w-full text-left text-xs md:text-sm border-collapse">

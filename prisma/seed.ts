@@ -5,7 +5,7 @@ import { prisma } from "../lib/prisma";
 async function main() {
   console.log("🌱 Memulai seeding data dari database.sql ke Neon...");
 
-  // 1. DATA AKUN
+ 
   const akunData = [
     { id_akun: "AKN001", username: "sari.putri", password: "sari1026" },
     { id_akun: "AKN002", username: "budi.santoso", password: "budi1027" },
@@ -38,7 +38,7 @@ async function main() {
     });
   }
 
-  // 2. DATA POLI
+ 
   const poliData = [
     {
       id_poli: "POL001",
@@ -85,7 +85,7 @@ async function main() {
     });
   }
 
-  // 3. DATA DOKTER
+
   const dokterData = [
     {
       id_dokter: "DKT001",
@@ -145,7 +145,7 @@ async function main() {
     });
   }
 
-  // 4. DATA APOTEKER, PERAWAT, RESEPSIONIS
+ 
   const apotekerData = [
     { id_apoteker: "APT001", nama_apoteker: "Nabila Zahra", jenis_kelamin: "Perempuan", alamat: "Bandar Buat, Kecamatan Lubuk Kilangan, Kota Padang", no_telepon: "081271530101", id_akun: "AKN007" },
     { id_apoteker: "APT002", nama_apoteker: "Rizki Maulana", jenis_kelamin: "Laki-laki", alamat: "Lubuk Begalung, Kota Padang", no_telepon: "081271530102", id_akun: "AKN008" },
@@ -173,7 +173,7 @@ async function main() {
     await prisma.resepsionis.upsert({ where: { id_resepsionis: item.id_resepsionis }, update: {}, create: item });
   }
 
-  // 5. DATA PASIEN
+  
   const pasienData = [
     { id_pasien: "PSN001", nama_pasien: "Sari Putri", nik: "0000000000000001", tanggal_lahir: new Date("1998-09-21"), jenis_kelamin: "Perempuan", alamat: "Koto Luar, Kecamatan Pauh, Kota Padang", no_telepon: "081234567801", id_akun: "AKN001" },
     { id_pasien: "PSN002", nama_pasien: "Budi Santoso", nik: "0000000000000002", tanggal_lahir: new Date("2000-01-08"), jenis_kelamin: "Laki-laki", alamat: "Limau Manis, Kecamatan Pauh, Kota Padang", no_telepon: "081234567802", id_akun: "AKN002" },
@@ -183,7 +183,7 @@ async function main() {
     await prisma.pasien.upsert({ where: { id_pasien: item.id_pasien }, update: {}, create: item });
   }
 
-  // 6. DATA JADWAL DOKTER
+  
   const parseTime = (t: string) => new Date(`1970-01-01T${t}Z`);
 
   const jadwalData = [
@@ -210,7 +210,7 @@ async function main() {
     });
   }
 
-  // 7. DATA KATALOG DIAGNOSIS & OBAT
+  
   const obatData = [
     { id_obat: "OBT001", nama_obat: "Parasetamol 500 mg", bentuk_obat: "Tablet", satuan: "Tablet", stok_obat: 100, batas_minimum_stok: 20, status_obat: "Aktif", id_apoteker: "APT001" },
     { id_obat: "OBT002", nama_obat: "Amlodipin 5 mg", bentuk_obat: "Tablet", satuan: "Tablet", stok_obat: 40, batas_minimum_stok: 10, status_obat: "Aktif", id_apoteker: "APT002" },

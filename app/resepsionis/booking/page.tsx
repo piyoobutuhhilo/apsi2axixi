@@ -75,7 +75,7 @@ export default function ResepsionisBookingPage() {
     fetchBookings();
   }, [filterPoli, filterStatus]);
 
-  // Update Status Kehadiran Pasien
+  
   const handleUpdateStatus = async (id_booking: string, newStatus: string) => {
     try {
       setUpdatingId(id_booking);
@@ -97,7 +97,7 @@ export default function ResepsionisBookingPage() {
     }
   };
 
-  // Filter pencarian berdasarkan nama pasien, NIK, atau kode antrean
+  
   const filteredData = bookingList.filter((item) => {
     const q = searchQuery.toLowerCase();
     const nama = item.pasien?.nama_pasien?.toLowerCase() || "";
@@ -108,7 +108,7 @@ export default function ResepsionisBookingPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#f4f7f6] text-gray-800 flex flex-col font-sans select-none">
-      {/* Top Navigation Bar Resepsionis */}
+      {}
       <header className="bg-[#1f5c43] text-white px-6 py-4 flex flex-wrap items-center justify-between shadow-md">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center font-bold text-lg">
@@ -130,11 +130,11 @@ export default function ResepsionisBookingPage() {
         </button>
       </header>
 
-      {/* Konten Utama */}
+      {}
       <main className="p-6 md:p-8 max-w-7xl mx-auto w-full flex-1 flex flex-col space-y-6">
-        {/* Filter Bar & Pencarian */}
+        {}
         <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row gap-4 justify-between items-center">
-          {/* Input Cari */}
+          {}
           <div className="w-full md:w-80">
             <input
               type="text"
@@ -145,7 +145,7 @@ export default function ResepsionisBookingPage() {
             />
           </div>
 
-          {/* Dropdown Filter */}
+          {}
           <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
             <select
               value={filterPoli}
@@ -180,7 +180,7 @@ export default function ResepsionisBookingPage() {
           </div>
         </div>
 
-        {/* Tabel Data Booking Pasien */}
+        {}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex-1 flex flex-col">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs md:text-sm border-collapse">
@@ -215,7 +215,7 @@ export default function ResepsionisBookingPage() {
                         {item.kode_antrean}
                       </td>
 
-                      {/* Info Pasien */}
+                      {}
                       <td className="py-3.5 px-4">
                         <div className="font-bold text-slate-900">
                           {item.pasien?.nama_pasien || "Pasien"}
@@ -225,7 +225,7 @@ export default function ResepsionisBookingPage() {
                         </div>
                       </td>
 
-                      {/* Poli & Dokter */}
+                      {}
                       <td className="py-3.5 px-4">
                         <div className="font-semibold text-slate-800">
                           {item.poli?.nama_poli || "-"}
@@ -235,7 +235,7 @@ export default function ResepsionisBookingPage() {
                         </div>
                       </td>
 
-                      {/* Tanggal & Jam Pemeriksaan */}
+                      {}
                       <td className="py-3.5 px-4">
                         <div className="font-medium text-slate-800">
                           {formatTanggalIndo(item.tanggal_pemeriksaan)}
@@ -245,7 +245,7 @@ export default function ResepsionisBookingPage() {
                         </div>
                       </td>
 
-                      {/* Status Badge */}
+                      {}
                       <td className="py-3.5 px-4">
                         <span
                           className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
@@ -260,7 +260,7 @@ export default function ResepsionisBookingPage() {
                         </span>
                       </td>
 
-                      {/* Tombol Aksi Konfirmasi */}
+                      {}
                       <td className="py-3.5 px-4 text-center">
                         <div className="inline-flex items-center gap-1.5">
                           {item.status === "Menunggu" && (

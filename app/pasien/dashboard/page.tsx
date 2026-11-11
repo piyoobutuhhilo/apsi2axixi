@@ -32,13 +32,13 @@ export default function DashboardPasienPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-gradient-to-b from-[#b8dcd0] via-[#528f72] to-[#1e533d] text-gray-900 overflow-hidden flex flex-col font-sans select-none">
-      {/* Ornamen Lingkaran Abstrak Kanan Atas */}
+      {}
       <div className="absolute -top-36 -right-36 w-[560px] h-[560px] rounded-full bg-[#27664c]/40 pointer-events-none" />
       <div className="absolute top-12 -right-24 w-[430px] h-[430px] rounded-full bg-[#1b4e39]/50 pointer-events-none" />
 
-      {/* Bagian Header */}
+      {}
       <header className="relative z-10 w-full px-8 pt-6 pb-2 flex justify-between items-start">
-        {/* Logo & Judul Kiri */}
+        {}
         <div className="flex items-center space-x-3">
           <div className="w-14 h-14 bg-[#1f5c43] rounded-2xl flex items-center justify-center text-white shadow-md">
             <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -50,9 +50,9 @@ export default function DashboardPasienPage() {
           </h1>
         </div>
 
-        {/* Profil & Logout Kanan Atas */}
+        {}
         <div className="flex flex-col space-y-2 items-end">
-          {/* Tombol Profil */}
+          {}
           <div className="flex items-center space-x-3 bg-white/20 backdrop-blur-md border border-white/40 px-5 py-2 rounded-full shadow-sm">
             <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#1f5c43] shadow-sm">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -65,7 +65,7 @@ export default function DashboardPasienPage() {
             </div>
           </div>
 
-          {/* Tombol Log Out */}
+          {}
           <button
             onClick={handleLogout}
             className="flex items-center space-x-3 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/40 px-5 py-2 rounded-full text-white font-bold text-sm shadow-sm transition cursor-pointer"
@@ -86,10 +86,10 @@ export default function DashboardPasienPage() {
         </div>
       </header>
 
-      {/* Grid Menu Utama */}
+      {}
       <main className="relative z-10 flex-1 flex flex-col justify-center items-center px-4 py-6 max-w-4xl mx-auto w-full">
         <div className="grid grid-cols-2 gap-6 w-full mb-6">
-          {/* 1. Lihat Jadwal Poli -> Arahkan ke /pasien/jadwal-poli */}
+          {}
           <button
             onClick={() => router.push("/pasien/jadwal-poli")}
             className="bg-[#528f72] hover:bg-[#467c63] transition shadow-md hover:shadow-lg rounded-3xl py-7 px-4 flex flex-col items-center justify-center gap-3 border border-emerald-600/30 cursor-pointer"
@@ -102,7 +102,7 @@ export default function DashboardPasienPage() {
             <span className="font-extrabold text-lg text-black">Lihat Jadwal Poli</span>
           </button>
 
-          {/* 2. Cetak Kode Antrean (Putih) */}
+          {}
           <button
             onClick={() => router.push("/pasien/cetak-antrean")}
             className="bg-white hover:bg-slate-50 transition shadow-md hover:shadow-lg rounded-3xl py-7 px-4 flex flex-col items-center justify-center gap-3 border border-slate-100 cursor-pointer"
@@ -115,7 +115,7 @@ export default function DashboardPasienPage() {
             <span className="font-extrabold text-lg text-black">Cetak Kode Antrean</span>
           </button>
 
-          {/* 3. Booking Jadwal (Putih) -> Menuju /pasien/booking */}
+          {}
           <button
             onClick={() => router.push("/pasien/booking")}
             className="bg-white hover:bg-slate-50 transition shadow-md hover:shadow-lg rounded-3xl py-7 px-4 flex flex-col items-center justify-center gap-3 border border-slate-100 cursor-pointer"
@@ -128,7 +128,7 @@ export default function DashboardPasienPage() {
             <span className="font-extrabold text-lg text-[#1e293b]">Booking Jadwal</span>
           </button>
 
-          {/* 4. Lihat Resep Obat (Hijau) */}
+          {}
           <button
             onClick={() => router.push("/pasien/resep-obat")}
             className="bg-[#528f72] hover:bg-[#467c63] transition shadow-md hover:shadow-lg rounded-3xl py-7 px-4 flex flex-col items-center justify-center gap-3 border border-emerald-600/30 cursor-pointer"
@@ -143,7 +143,7 @@ export default function DashboardPasienPage() {
             <span className="font-extrabold text-lg text-black">Lihat Resep Obat</span>
           </button>
 
-          {/* 5. Riwayat Booking (Hijau) */}
+          {}
           <button
             onClick={() => router.push("/pasien/booking/riwayat")}
             className="bg-[#528f72] hover:bg-[#467c63] transition shadow-md hover:shadow-lg rounded-3xl py-7 px-4 flex flex-col items-center justify-center gap-3 border border-emerald-600/30 cursor-pointer"
@@ -156,7 +156,7 @@ export default function DashboardPasienPage() {
             <span className="font-extrabold text-lg text-black">Riwayat Booking</span>
           </button>
 
-          {/* 6. Pembayaran Obat (Putih) */}
+          {}
           <button
             onClick={() => router.push("/pasien/pembayaran-obat")}
             className="bg-white hover:bg-slate-50 transition shadow-md hover:shadow-lg rounded-3xl py-7 px-4 flex flex-col items-center justify-center gap-3 border border-slate-100 cursor-pointer"
@@ -171,7 +171,7 @@ export default function DashboardPasienPage() {
           </button>
         </div>
 
-        {/* 7. Rekam Medis Elektrik (Tombol Panjang Bawah) */}
+        {}
         <button
           onClick={() => router.push("/pasien/rekam-medis")}
           className="w-full bg-[#528f72] hover:bg-[#467c63] transition shadow-md hover:shadow-lg rounded-3xl py-4 px-8 flex items-center justify-center space-x-6 border border-emerald-600/30 cursor-pointer"

@@ -69,12 +69,12 @@ export default function CekKodeAntreanResepsionisPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1b5d44] text-gray-900 overflow-hidden flex flex-col font-sans select-none p-5 md:p-8">
-      {/* Ornamen Lingkaran Sisi Kiri Atas */}
+      {}
       <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-16 -left-12 w-64 h-64 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-48 -left-20 w-72 h-72 rounded-full bg-white/5 pointer-events-none" />
 
-      {/* Tombol Kembali di Kiri Atas */}
+      {}
       <div className="relative z-10 w-full mb-4 flex justify-between items-center">
         <button
           onClick={() => {
@@ -97,11 +97,11 @@ export default function CekKodeAntreanResepsionisPage() {
         </span>
       </div>
 
-      {/* ================= 1. JIKA KODE ANTREAN DIPILIH (KARTU QR CODE) ================= */}
+      {}
       {selectedAntrean ? (
         <div className="relative z-10 w-full flex-1 flex items-center justify-center">
           <div className="w-full max-w-4xl bg-[#d5dde2] rounded-[32px] p-8 md:p-12 shadow-2xl flex flex-col justify-between min-h-[460px] border border-slate-300 relative">
-            {/* Header Puskesmas Pauh */}
+            {}
             <div className="w-full">
               <h2 className="text-xl md:text-2xl font-serif font-black tracking-wider text-[#1e3d30]">
                 PUSKESMAS PAUH
@@ -111,9 +111,9 @@ export default function CekKodeAntreanResepsionisPage() {
               </p>
             </div>
 
-            {/* Konten Utama (Kode Antrian & QR Code) */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center my-6">
-              {/* Sisi Kiri: Kode Antrian */}
+              {}
               <div className="flex flex-col items-center justify-center text-center">
                 <span className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
                   Kode Antrian
@@ -126,7 +126,7 @@ export default function CekKodeAntreanResepsionisPage() {
                 </span>
               </div>
 
-              {/* Sisi Kanan: Frame QR Code Hijau Toska */}
+              {}
               <div className="flex justify-center md:justify-end">
                 <div className="bg-[#66b6a3] p-4 rounded-xl shadow-md flex flex-col items-center max-w-[260px] w-full">
                   <div className="bg-white p-2 rounded-lg w-full flex items-center justify-center">
@@ -145,7 +145,7 @@ export default function CekKodeAntreanResepsionisPage() {
               </div>
             </div>
 
-            {/* Footer Tanggal, Jam, dan Ucapan */}
+            {}
             <div className="w-full text-center font-serif text-slate-800 border-t border-slate-300/60 pt-3">
               <p className="text-xs font-semibold">
                 {formatTanggalJam(selectedAntrean.tanggal_periksa).tgl}
@@ -160,7 +160,7 @@ export default function CekKodeAntreanResepsionisPage() {
           </div>
         </div>
       ) : (
-        /* ================= 2. DAFTAR PASIEN MENGANTRI ================= */
+       
         <div className="relative z-10 w-full flex-1 bg-[#d5dde2] rounded-[32px] p-6 md:p-8 shadow-2xl flex flex-col justify-between overflow-hidden">
           <div className="w-full flex flex-col space-y-4 flex-1">
             <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-400/40">

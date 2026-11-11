@@ -15,7 +15,7 @@ interface DokterCardItem {
   jadwal: SesiJadwal[];
 }
 
-// Helper untuk membersihkan format jam Prisma (TIME -> "HH.mm")
+
 function formatTime(val: any): string {
   if (!val) return "08.00";
   if (typeof val === "string") {
@@ -31,7 +31,7 @@ function formatTime(val: any): string {
   return String(val);
 }
 
-// Fallback dokter foto sesuai nama
+
 const fotoDokterMap: Record<string, string> = {
   "dr. Falzan": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=400&auto=format&fit=crop",
   "dr. Clara": "https://images.unsplash.com/photo-1594824813639-50df73458bfb?q=80&w=400&auto=format&fit=crop",
@@ -68,7 +68,7 @@ function KontenJadwalPasien() {
         const result = await res.json();
 
         if (result.data && result.data.length > 0) {
-          // Kelompokkan data flat jadwal dari PostgreSQL ke per dokter
+         
           const grouped: Record<string, DokterCardItem> = {};
 
           result.data.forEach((item: any) => {
@@ -114,12 +114,12 @@ function KontenJadwalPasien() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#20674f] text-gray-800 overflow-hidden flex flex-col font-sans select-none p-5 md:p-8">
-      {/* Ornamen Lengkungan Hijau Puskesmas Sisi Kiri */}
+      {}
       <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-16 -left-12 w-64 h-64 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-48 -left-20 w-72 h-72 rounded-full bg-white/5 pointer-events-none" />
 
-      {/* Tombol Kembali di Kiri Atas */}
+      {}
       <div className="relative z-10 w-full mb-4">
         <button onClick={() => router.back()}>
           <div className="w-5 h-5 rounded-full bg-white text-[#20674f] flex items-center justify-center font-bold text-xs">
@@ -129,14 +129,14 @@ function KontenJadwalPasien() {
         </button>
       </div>
 
-      {/* Tab Nama Poli Header */}
+      {}
       <div className="relative z-10 w-full mb-3">
         <div className="w-full bg-[#3ea870] text-white font-bold text-sm md:text-base py-3 px-8 rounded-full shadow-lg border-b-4 border-[#1e4a36]">
           {formatNamaPoli(idPoli)}
         </div>
       </div>
 
-      {/* Kontainer Jadwal Dokter */}
+      {}
       <div className="relative z-10 w-full flex-1 bg-[#d5dde2] rounded-[32px] p-6 md:p-10 shadow-2xl flex flex-col space-y-6 overflow-y-auto">
         {loading ? (
           <div className="text-center py-16 text-slate-600 font-bold text-sm">
@@ -152,7 +152,7 @@ function KontenJadwalPasien() {
               key={dok.id}
               className="flex flex-col sm:flex-row items-center gap-5 w-full"
             >
-              {/* Foto Dokter Dalam Lingkaran Hijau Tua */}
+              {}
               <div className="w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-[#23533e] bg-white overflow-hidden shadow-lg flex-shrink-0 flex items-center justify-center">
                 <img
                   src={dok.fotoUrl}
@@ -161,16 +161,16 @@ function KontenJadwalPasien() {
                 />
               </div>
 
-              {/* Kolom Informasi & Panel Jadwal Dokter */}
+              {}
               <div className="flex-1 w-full flex flex-col">
-                {/* Badge Nama Dokter */}
+                {}
                 <div className="self-start w-full max-w-md bg-[#23533e] text-white font-serif font-bold text-base md:text-lg px-6 py-2 rounded-full shadow-md -mb-2 z-10 border border-emerald-900/60">
                   {dok.nama}
                 </div>
 
-                {/* Panel Jadwal Hijau Mint */}
+                {}
                 <div className="w-full bg-[#82cfa5] border border-[#52b788] rounded-3xl p-4 shadow-md flex flex-col sm:flex-row gap-4 justify-between items-stretch">
-                  {/* Kolom Hari */}
+                  {}
                   <div className="w-full sm:w-5/12 flex flex-col">
                     <div className="bg-[#4aa174] text-white text-xs font-bold py-1.5 px-4 rounded-xl flex items-center justify-center shadow-sm mb-2">
                       <span>Hari</span>
@@ -188,7 +188,7 @@ function KontenJadwalPasien() {
                     </div>
                   </div>
 
-                  {/* Kolom Jam Layanan */}
+                  {}
                   <div className="w-full sm:w-7/12 flex flex-col">
                     <div className="bg-[#4aa174] text-white text-xs font-bold py-1.5 px-4 rounded-xl flex items-center justify-center shadow-sm mb-2">
                       <span>Jam Layanan</span>

@@ -7,12 +7,12 @@ export default function MenuBookingPasienPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#20674f] text-gray-800 overflow-hidden flex flex-col font-sans select-none p-5 md:p-8">
-      {/* Ornamen Lingkaran Khas Tema Puskesmas */}
+      {}
       <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-16 -left-12 w-64 h-64 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-48 -left-20 w-72 h-72 rounded-full bg-white/5 pointer-events-none" />
 
-      {/* Tombol Kembali di Kiri Atas */}
+      {}
       <div className="relative z-10 w-full mb-4">
         <button
           onClick={() => router.push("/pasien/dashboard")}
@@ -25,7 +25,7 @@ export default function MenuBookingPasienPage() {
         </button>
       </div>
 
-      {/* Tab Header Nama Menu */}
+      {}
       <div className="relative z-10 w-full mb-4">
         <div className="w-full bg-[#3ea870] text-white font-bold text-sm md:text-base py-3.5 px-8 rounded-full shadow-lg border-b-4 border-[#1e4a36] flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -38,7 +38,7 @@ export default function MenuBookingPasienPage() {
         </div>
       </div>
 
-      {/* Kontainer Utama dengan Gaya Panel Halus */}
+      {}
       <div className="relative z-10 w-full flex-1 bg-[#d5dde2] rounded-[32px] p-6 md:p-12 shadow-2xl flex flex-col justify-center items-center">
         <div className="text-center max-w-lg mb-8">
           <h2 className="text-xl md:text-2xl font-black text-[#1b4332] tracking-tight">
@@ -49,14 +49,14 @@ export default function MenuBookingPasienPage() {
           </p>
         </div>
 
-        {/* Grid 2 Pilihan Menu */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-3xl">
-          {/* Pilihan 1: Buat Booking Baru */}
+          {}
           <div
             onClick={() => router.push("/pasien/booking/baru")}
             className="group relative bg-white hover:bg-emerald-50/50 rounded-3xl p-7 md:p-8 shadow-md hover:shadow-xl border-2 border-emerald-600/30 hover:border-emerald-600 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden"
           >
-            {/* Dekorasi Aksen Warna */}
+            {}
             <div className="absolute top-0 right-0 w-28 h-28 bg-[#82cfa5]/20 rounded-bl-[80px] pointer-events-none group-hover:scale-110 transition-transform" />
 
             <div>
@@ -82,12 +82,12 @@ export default function MenuBookingPasienPage() {
             </div>
           </div>
 
-          {/* Pilihan 2: Edit / Cek Booking */}
+          {}
           <div
             onClick={() => router.push("/pasien/booking/riwayat")}
             className="group relative bg-white hover:bg-slate-50 rounded-3xl p-7 md:p-8 shadow-md hover:shadow-xl border-2 border-slate-300 hover:border-[#3ea870] transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden"
           >
-            {/* Dekorasi Aksen Warna */}
+            {}
             <div className="absolute top-0 right-0 w-28 h-28 bg-slate-200/50 rounded-bl-[80px] pointer-events-none group-hover:scale-110 transition-transform" />
 
             <div>
@@ -114,7 +114,7 @@ export default function MenuBookingPasienPage() {
           </div>
         </div>
 
-        {/* Catatan Bantuan Bawah */}
+        {}
         <div className="mt-8 text-center text-[11px] text-slate-500">
           💡 <span className="font-semibold">Informasi:</span> Jam operasional loket konfirmasi poli Puskesmas Pauh dimulai pukul 08.00 WIB.
         </div>

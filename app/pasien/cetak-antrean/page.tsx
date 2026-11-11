@@ -130,11 +130,11 @@ export default function CetakAntreanPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1b5d44] text-gray-900 overflow-hidden flex flex-col font-sans select-none p-5 md:p-8">
-      {/* Ornamen Lingkaran Sisi Kiri */}
+      {}
       <div className="print:hidden absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/10 pointer-events-none" />
       <div className="print:hidden absolute top-16 -left-12 w-64 h-64 rounded-full bg-white/10 pointer-events-none" />
 
-      {/* Header & Navigasi Kembali */}
+      {}
       <div className="print:hidden relative z-10 w-full mb-4 flex justify-between items-center">
         <button
           onClick={() => {
@@ -161,7 +161,7 @@ export default function CetakAntreanPage() {
         </span>
       </div>
 
-      {/* Kontainer Utama */}
+      {}
       <div className="relative z-10 w-full flex-1 bg-[#d5dde2] rounded-[32px] p-6 md:p-10 shadow-2xl flex flex-col items-center justify-center print:bg-transparent print:p-0 print:shadow-none">
         {loading ? (
           <div className="py-20 text-center font-bold text-slate-600">
@@ -186,7 +186,7 @@ export default function CetakAntreanPage() {
             </button>
           </div>
         ) : !selectedTicket ? (
-          /* ================= TAMPILAN JIKA BOOKING LEBIH DARI 1: DAFTAR KARTU ================= */
+          
           <div className="w-full max-w-2xl flex flex-col">
             <div className="text-center mb-6">
               <h2 className="text-xl md:text-2xl font-black text-[#1b5d44]">
@@ -237,7 +237,7 @@ export default function CetakAntreanPage() {
             </div>
           </div>
         ) : (
-          /* ================= TAMPILAN DETAIL STRUK CETAK ================= */
+          
           <div className="w-full max-w-md flex flex-col items-center">
             {antreanList.length > 1 && (
               <div className="print:hidden w-full flex justify-between items-center mb-4 px-2">
@@ -254,7 +254,7 @@ export default function CetakAntreanPage() {
               id="printable-ticket"
               className="w-full bg-white rounded-3xl p-6 sm:p-8 shadow-xl border-2 border-slate-300 flex flex-col items-center text-center relative overflow-hidden print:w-full print:border-none print:shadow-none"
             >
-              {/* Header Struk Puskesmas */}
+              {}
               <div className="w-full border-b-2 border-dashed border-slate-300 pb-4 mb-4">
                 <div className="flex items-center justify-center gap-2 mb-1">
                   <div className="w-6 h-6 rounded-lg bg-[#1b5d44] text-white font-bold text-xs flex items-center justify-center">
@@ -272,7 +272,7 @@ export default function CetakAntreanPage() {
                 </p>
               </div>
 
-              {/* Nomor Urut / Kode Antrean Utama */}
+              {}
               <div className="my-2">
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                   Nomor Antrean Anda
@@ -291,7 +291,7 @@ export default function CetakAntreanPage() {
                 </span>
               </div>
 
-              {/* Detail Pasien & Pelayanan */}
+              {}
               <div className="w-full bg-[#f8fafc] rounded-2xl p-4 border border-slate-200 text-xs text-left my-4 space-y-2">
                 <div className="flex justify-between border-b border-slate-200/70 pb-1.5">
                   <span className="text-slate-500">Nama Pasien:</span>
@@ -329,7 +329,7 @@ export default function CetakAntreanPage() {
                 </div>
               </div>
 
-              {/* QR Code Container */}
+              {}
               <div className="w-full flex flex-col items-center border-t-2 border-dashed border-slate-300 pt-5 mt-2">
                 <div className="p-3 bg-white border border-slate-200 rounded-2xl shadow-sm">
                   <QRCodeSVG
@@ -353,7 +353,7 @@ export default function CetakAntreanPage() {
               </div>
             </div>
 
-            {/* Tombol Cetak & Aksi */}
+            {}
             <div className="print:hidden w-full flex flex-wrap gap-3 justify-center mt-6">
               <button
                 type="button"

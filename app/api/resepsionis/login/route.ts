@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 1. Cari akun berdasarkan username/email
+    
     const akun = await prisma.akun.findFirst({
       where: {
         username: {
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Validasi Role: Tolak jika akun bukan Resepsionis
+    
     const role = (akun.role || "").toUpperCase();
     if (role !== "RESEPSIONIS") {
       return NextResponse.json(
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 3. Buat respons sukses
+    
     const response = NextResponse.json({
       message: "Login Resepsionis Berhasil!",
       resepsionis: {
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
       redirectTo: "/resepsionis/dashboard",
     });
 
-    // 4. Pasang Cookie Sesi agar lolos verifikasi middleware Next.js
+    
     response.cookies.set("user_role", "RESEPSIONIS", {
       path: "/",
       httpOnly: false,

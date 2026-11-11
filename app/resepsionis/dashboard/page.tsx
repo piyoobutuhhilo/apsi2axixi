@@ -32,17 +32,17 @@ export default function DashboardResepsionisPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1e5f44] flex items-center justify-center p-3 md:p-6 font-sans select-none overflow-hidden">
-      {/* Frame Kontainer Layar Penuh dengan Sudut Membulat */}
+      {}
       <div className="relative w-full h-[94vh] max-w-[98vw] rounded-[36px] overflow-hidden shadow-2xl border-4 border-emerald-400/40 bg-[#d8eee5] flex flex-col justify-between p-6 md:p-10">
         
-        {/* Ornamen Lingkaran Hijau Bertumpuk di Sudut Kanan Atas */}
+        {}
         <div className="absolute -top-16 -right-16 w-80 h-80 rounded-full bg-[#3c8266]/40 pointer-events-none" />
         <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[#327057]/50 pointer-events-none" />
         <div className="absolute top-16 right-16 w-48 h-48 rounded-full bg-[#285e48]/30 pointer-events-none" />
 
-        {/* ================= BAGIAN HEADER ATAS ================= */}
+        {}
         <div className="relative z-10 w-full flex justify-between items-start">
-          {/* Logo & Judul Sistem */}
+          {}
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-[#1e4a36] text-white rounded-xl flex items-center justify-center font-black text-sm shadow">
               P
@@ -55,9 +55,9 @@ export default function DashboardResepsionisPage() {
             </div>
           </div>
 
-          {/* Profil Akun & Log Out di Pojok Kanan Atas */}
+          {}
           <div className="flex flex-col items-end space-y-2.5">
-            {/* Pill Akun Resepsionis */}
+            {}
             <div className="flex items-center space-x-3 bg-[#428168]/70 backdrop-blur-md px-5 py-2 rounded-full border border-white/30 text-white shadow-sm">
               <div className="w-6 h-6 rounded-full bg-white text-[#23533e] flex items-center justify-center font-bold text-xs">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -70,7 +70,7 @@ export default function DashboardResepsionisPage() {
               </div>
             </div>
 
-            {/* Pill Tombol Log Out */}
+            {}
             <button
               onClick={handleLogout}
               className="flex items-center space-x-2 bg-white/70 hover:bg-white text-slate-800 px-4 py-1.5 rounded-full border border-slate-300 text-xs font-bold shadow-sm transition-all cursor-pointer"
@@ -83,12 +83,12 @@ export default function DashboardResepsionisPage() {
           </div>
         </div>
 
-        {/* ================= BAGIAN GRID MENU TENGAH ================= */}
+        {}
         <div className="relative z-10 w-full max-w-2xl mx-auto flex flex-col items-center justify-center gap-5 my-auto">
-          {/* Grid 2x2 Menu Kartu */}
+          {}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
             
-            {/* 1. Lihat Pasien Mendaftar / Kelola Booking */}
+            {}
             <div
               onClick={() => router.push("/resepsionis/kelola-booking")}
               className="bg-[#427a63] hover:bg-[#386b56] transition-all duration-200 cursor-pointer rounded-3xl p-6 shadow-md flex flex-col items-center justify-between min-h-[190px] border border-white/20 hover:scale-[1.02]"
@@ -109,7 +109,7 @@ export default function DashboardResepsionisPage() {
               </div>
             </div>
 
-            {/* 2. Atur Jadwal Dokter dan Pasien / Jadwal Dokter & Pasien */}
+            {}
             <div
               onClick={() => router.push("/resepsionis/jadwal")}
               className="bg-[#8ec2aa] hover:bg-[#7cb39a] transition-all duration-200 cursor-pointer rounded-3xl p-6 shadow-md flex flex-col items-center justify-between min-h-[190px] border border-white/30 hover:scale-[1.02]"
@@ -131,7 +131,7 @@ export default function DashboardResepsionisPage() {
               </div>
             </div>
 
-            {/* 3. Cek Kode Antrian / Kelola Kunjungan */}
+            {}
             <div
               onClick={() => router.push("/resepsionis/kelola-kunjungan")}
               className="bg-[#1b4332] hover:bg-[#143627] transition-all duration-200 cursor-pointer rounded-3xl p-6 shadow-md flex flex-col items-center justify-between min-h-[190px] border border-emerald-950/40 hover:scale-[1.02]"
@@ -153,7 +153,7 @@ export default function DashboardResepsionisPage() {
               </div>
             </div>
 
-            {/* 4. Rekam Medis Elektronik / Kelola RME Pasien */}
+            {}
             <div
               onClick={() => router.push("/resepsionis/rme-pasien")}
               className="bg-[#8ec2aa] hover:bg-[#7cb39a] transition-all duration-200 cursor-pointer rounded-3xl p-6 shadow-md flex flex-col items-center justify-between min-h-[190px] border border-white/30 hover:scale-[1.02]"
@@ -176,7 +176,7 @@ export default function DashboardResepsionisPage() {
 
           </div>
 
-          {/* Bar Menu Bawah: Kelola Data Pasien */}
+          {}
           <button
             onClick={() => router.push("/resepsionis/data-pasien")}
             className="w-full bg-[#8ec2aa] hover:bg-[#7cb39a] active:scale-[0.99] transition-all duration-200 rounded-3xl py-4 px-8 flex items-center space-x-4 border border-white/30 shadow-md cursor-pointer text-left"
@@ -193,7 +193,7 @@ export default function DashboardResepsionisPage() {
           </button>
         </div>
 
-        {/* Placeholder Bawah */}
+        {}
         <div className="h-2" />
       </div>
     </div>

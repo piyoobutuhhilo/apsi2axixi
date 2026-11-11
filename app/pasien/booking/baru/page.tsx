@@ -25,17 +25,17 @@ interface PoliItem {
 function FormBookingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const editId = searchParams.get("edit"); // Mendeteksi apakah sedang dalam mode Edit
+  const editId = searchParams.get("edit"); 
 
   const [dataPoli, setDataPoli] = useState<PoliItem[]>([]);
   const [loadingData, setLoadingData] = useState(true);
 
-  // State pilihan user
+ 
   const [selectedPoli, setSelectedPoli] = useState<PoliItem | null>(null);
   const [selectedDokter, setSelectedDokter] = useState<DokterItem | null>(null);
   const [selectedJadwal, setSelectedJadwal] = useState<JadwalItem | null>(null);
 
-  // State dropdown terbuka
+ 
   const [openDropdown, setOpenDropdown] = useState<"poli" | "dokter" | "jadwal" | null>(null);
 
   const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -43,7 +43,7 @@ function FormBookingContent() {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Tutup dropdown jika klik di luar area form
+ 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -56,7 +56,7 @@ function FormBookingContent() {
     };
   }, []);
 
-  // 1. Ambil opsi poli, dokter, dan jadwal dari database
+  
   useEffect(() => {
     async function loadOptions() {
       try {
@@ -67,7 +67,7 @@ function FormBookingContent() {
         if (json.data) {
           setDataPoli(json.data);
 
-          // Jika dalam mode Edit, cari data booking lama untuk dipasang otomatis
+          
           if (editId) {
             const resRiwayat = await fetch("/api/pasien/booking/riwayat");
             const jsonRiwayat = await resRiwayat.json();
@@ -120,7 +120,7 @@ function FormBookingContent() {
     setOpenDropdown(null);
   };
 
-  // Fungsi untuk reset form agar user dapat membuat booking baru
+  
   const handleResetFormBooking = () => {
     setSelectedPoli(null);
     setSelectedDokter(null);
@@ -132,7 +132,7 @@ function FormBookingContent() {
     }
   };
 
-  // Submit Simpan (POST untuk Baru / PUT untuk Edit)
+  
   const handleSubmitBooking = async () => {
     if (!selectedPoli) return alert("Silakan pilih Poli Tujuan terlebih dahulu!");
     if (!selectedDokter) return alert("Silakan pilih Dokter terlebih dahulu!");
@@ -205,7 +205,7 @@ function FormBookingContent() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1b5d44] text-gray-900 overflow-hidden flex flex-col font-sans select-none p-5 md:p-8">
-      {/* Ornamen Lingkaran Sisi Kiri Atas */}
+      {}
       <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-16 -left-12 w-64 h-64 rounded-full bg-white/10 pointer-events-none" />
       <div className="absolute top-48 -left-20 w-72 h-72 rounded-full bg-white/5 pointer-events-none" />
@@ -223,20 +223,20 @@ function FormBookingContent() {
         </button>
       </div>
 
-      {/* Kontainer Abu-abu Terang */}
+      {}
       <div
         ref={containerRef}
         className="relative z-10 w-full flex-1 bg-[#d5dde2] rounded-[32px] p-6 md:p-10 shadow-2xl flex flex-col justify-between overflow-visible"
       >
         <div className="w-full flex flex-col space-y-4">
-          {/* Judul Status Mode */}
+          {}
           {editId && (
             <div className="w-full bg-amber-100 border border-amber-300 text-amber-800 font-bold text-xs px-5 py-2.5 rounded-full shadow-sm">
               ✏️ Mengedit Jadwal Booking: <span className="font-mono">{editId}</span>
             </div>
           )}
 
-          {/* 1. PILIH POLI TUJUAN */}
+          {}
           <div className="relative w-full">
             <button
               type="button"
@@ -277,7 +277,7 @@ function FormBookingContent() {
             )}
           </div>
 
-          {/* 2. PILIH DOKTER */}
+          {}
           <div className="relative w-full">
             <button
               type="button"
@@ -329,7 +329,7 @@ function FormBookingContent() {
             )}
           </div>
 
-          {/* 3. PILIH JADWAL */}
+          {}
           <div className="relative w-full">
             <button
               type="button"
@@ -382,7 +382,7 @@ function FormBookingContent() {
           </div>
         </div>
 
-        {/* Tombol Buat / Perbarui Booking */}
+        {}
         <div className="w-full flex justify-end mt-12">
           <button
             type="button"
@@ -397,7 +397,7 @@ function FormBookingContent() {
         </div>
       </div>
 
-      {/* Modal Popup Konfirmasi */}
+      {}
       {modalSukses && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-in fade-in duration-200">
           <div className="w-full max-w-sm bg-white rounded-3xl p-6 shadow-2xl border border-emerald-300 flex flex-col items-center text-center">
@@ -419,7 +419,7 @@ function FormBookingContent() {
               </div>
             )}
 
-            {/* Kelompok Aksi Fleksibel: Booking Lagi, Cetak, atau Riwayat */}
+            {}
             <div className="w-full flex flex-col gap-2 mt-4">
               <button
                 type="button"

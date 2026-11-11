@@ -28,7 +28,7 @@ function hitungTanggalPemeriksaan(hariTarget: string): Date {
   return result;
 }
 
-// ================= 1. POST: BUAT BOOKING BARU =================
+
 export async function POST(request: Request) {
   try {
     const cookieStore = await cookies();
@@ -109,7 +109,7 @@ export async function POST(request: Request) {
   }
 }
 
-// ================= 2. PUT: EDIT / UPDATE JADWAL BOOKING =================
+
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
@@ -129,7 +129,7 @@ export async function PUT(request: Request) {
       );
     }
 
-    // 1. Cek apakah booking ada di database
+   
     const bookingExisting = await prisma.booking.findUnique({
       where: { id_booking: String(id_booking) },
     });
@@ -141,14 +141,14 @@ export async function PUT(request: Request) {
       );
     }
 
-    // 2. Hitung ulang tanggal pemeriksaan berdasarkan jadwal dokter yang baru dipilih
+    
     const jadwalData = await prisma.jadwal_dokter.findUnique({
       where: { id_jadwal: String(id_jadwal) },
     });
     const hariJadwal = jadwalData?.hari || "Senin";
     const tglPeriksaBaru = hitungTanggalPemeriksaan(hariJadwal);
 
-    // 3. Update data booking di database
+    
     const updatedBooking = await prisma.booking.update({
       where: { id_booking: String(id_booking) },
       data: {
